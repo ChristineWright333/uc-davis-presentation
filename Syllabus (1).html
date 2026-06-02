@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undergraduate Course Syllabus — Syracuse University</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seafoam: #D4F0ED;
+    --rich-black: #011313;
+    --dark-blue: #212152;
+    --dark-violet: #48316C;
+    --warm-sky: #96DEE5;
+    --light-violet: #F4AEE2;
+    --white: #FFFFFF;
+    --soft-gray: #E8EAEB;
+    --gold: #E2A029;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Merriweather', Georgia, serif;
+    background: var(--white);
+    color: var(--rich-black);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background: var(--dark-blue);
+    padding: 36px 56px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(150,222,229,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .doc-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 300px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,174,226,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+  }
+
+  .header-left { flex: 1; }
+
+  .header-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-sky);
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+  .header-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-sky);
+    margin-bottom: 6px;
+  }
+
+  .course-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .instructor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+
+  .instructor-field { display: flex; flex-direction: column; gap: 3px; }
+
+  .field-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-sky);
+    opacity: 0.65;
+  }
+
+  .field-value {
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--white);
+    opacity: 0.9;
+  }
+
+  .field-value.editable {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(150,222,229,0.15);
+    border-radius: 5px;
+    padding: 6px 10px;
+    outline: none;
+    min-width: 200px;
+  }
+
+  .header-badge {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .badge {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.08);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  .badge.hl {
+    background: var(--dark-violet);
+    border-color: var(--light-violet);
+    color: var(--light-violet);
+  }
+
+  /* ── TOC STRIP ── */
+  .toc-strip {
+    background: var(--seafoam);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid rgba(33,33,82,0.08);
+  }
+
+  .toc-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--dark-blue);
+    opacity: 0.5;
+    margin-right: 8px;
+  }
+
+  .toc-link {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 50px;
+    background: rgba(33,33,82,0.06);
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .toc-link:hover { background: var(--dark-blue); color: var(--white); }
+
+  /* ── CONTENT ── */
+  .doc-content {
+    padding: 40px 56px 80px;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 40px;
+    scroll-margin-top: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(33,33,82,0.08);
+  }
+
+  .section-num {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--dark-blue);
+    color: var(--seafoam);
+    padding: 3px 10px;
+    border-radius: 50px;
+    flex-shrink: 0;
+  }
+
+  .section-num.violet { background: var(--dark-violet); color: var(--light-violet); }
+  .section-num.teal { background: #0A3642; color: var(--warm-sky); }
+  .section-num.gold { background: #7A2C10; color: #FFBF8A; }
+
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--dark-blue);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── CONTENT CARD ── */
+  .content-card {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px 24px;
+    border: 1px solid rgba(33,33,82,0.08);
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--dark-blue);
+  }
+
+  .content-card.violet::before { background: var(--dark-violet); }
+  .content-card.teal::before { background: #0A3642; }
+  .content-card.gold::before { background: var(--gold); }
+  .content-card.seafoam { background: var(--seafoam); }
+  .content-card.seafoam::before { background: var(--warm-sky); }
+
+  .card-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .card-title.violet { color: var(--dark-violet); }
+  .card-title.teal { color: #0A3642; }
+
+  .card-body {
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--rich-black);
+    line-height: 1.85;
+  }
+
+  .card-body a { color: var(--dark-blue); font-weight: 700; }
+
+  /* ── INPUT AREAS ── */
+  .input-area {
+    width: 100%;
+    min-height: 72px;
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--rich-black);
+    line-height: 1.75;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-area:focus { border-color: var(--dark-blue); }
+
+  /* ── OBJECTIVES ── */
+  .obj-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .obj-row { display: flex; align-items: flex-start; gap: 12px; }
+
+  .obj-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .obj-input {
+    flex: 1;
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--rich-black);
+    line-height: 1.65;
+    outline: none;
+    min-height: 44px;
+    resize: vertical;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+
+  .obj-input:focus { border-color: var(--dark-blue); }
+
+  /* ── GRADING TABLE ── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+
+  .styled-table th {
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .styled-table th:first-child { border-radius: 8px 0 0 0; }
+  .styled-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .styled-table.violet th { background: var(--dark-violet); }
+  .styled-table.teal th { background: #0A3642; }
+
+  .styled-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(33,33,82,0.07);
+    font-family: 'Merriweather', serif;
+    font-size: 12.5px;
+    color: var(--rich-black);
+    line-height: 1.65;
+    vertical-align: middle;
+  }
+
+  .styled-table tr:nth-child(even) td { background: rgba(212,240,237,0.3); }
+  .styled-table tr:last-child td { border-bottom: none; }
+
+  .styled-table td.grade { font-family: 'Raleway', sans-serif; font-weight: 800; color: var(--dark-blue); }
+  .styled-table td.total { font-family: 'Raleway', sans-serif; font-weight: 900; color: var(--dark-blue); font-size: 13px; }
+
+  .grade-a { background: rgba(52,211,153,0.12) !important; }
+  .grade-b { background: rgba(150,222,229,0.15) !important; }
+  .grade-c { background: rgba(251,191,36,0.1) !important; }
+  .grade-d { background: rgba(248,113,113,0.1) !important; }
+  .grade-f { background: rgba(239,68,68,0.1) !important; }
+
+  .td-input {
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    outline: none;
+    width: 100%;
+  }
+
+  /* ── POLICY BLOCK ── */
+  .policy-block {
+    background: var(--seafoam);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(33,33,82,0.07);
+  }
+
+  .policy-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .policy-body {
+    font-family: 'Merriweather', serif;
+    font-size: 12.5px;
+    color: var(--rich-black);
+    line-height: 1.85;
+  }
+
+  .policy-body a { color: var(--dark-violet); font-weight: 700; }
+
+  /* ── SCHEDULE TABLE ── */
+  .schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .schedule-table th {
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .schedule-table th:first-child { border-radius: 8px 0 0 0; width: 12%; }
+  .schedule-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .schedule-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(33,33,82,0.07);
+    vertical-align: top;
+  }
+
+  .schedule-table tr:nth-child(even) td { background: rgba(212,240,237,0.2); }
+  .schedule-table tr:last-child td { border-bottom: none; }
+
+  .week-num {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--dark-blue);
+  }
+
+  .schedule-table td textarea {
+    width: 100%;
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.08);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    outline: none;
+    resize: vertical;
+    min-height: 48px;
+    line-height: 1.65;
+  }
+
+  /* ── LIVE SESSION TABLE ── */
+  .live-table { width: 100%; border-collapse: collapse; }
+
+  .live-table th {
+    background: #0A3642;
+    color: var(--warm-sky);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .live-table th:first-child { border-radius: 8px 0 0 0; }
+  .live-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .live-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(33,33,82,0.07);
+    font-family: 'Merriweather', serif;
+    font-size: 12.5px;
+    color: var(--rich-black);
+  }
+
+  .live-table tr:nth-child(even) td { background: rgba(212,240,237,0.2); }
+  .live-table tr:last-child td { border-bottom: none; }
+
+  .live-table td input {
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    outline: none;
+    width: 100%;
+  }
+
+  /* ── BULLET LIST ── */
+  .styled-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .styled-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12.5px;
+    color: var(--rich-black);
+    line-height: 1.75;
+  }
+
+  .list-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .list-dot.violet { background: var(--dark-violet); }
+  .list-dot.teal { background: #0A3642; }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: var(--dark-blue);
+    padding: 18px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warm-sky);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+  }
+
+  .print-btn {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--dark-violet);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: var(--warm-sky); color: var(--dark-blue); }
+
+  @media print {
+    .doc-footer, .toc-strip { display: none; }
+    .input-area, .obj-input, .td-input { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="header-eyebrow">Syracuse University</div>
+      <div class="header-title">Undergraduate Course Syllabus</div>
+      <div class="course-name" contenteditable="true" style="outline:none;">[Enter Course Subject, Number, and Title]</div>
+      <div class="instructor-grid">
+        <div class="instructor-field">
+          <div class="field-label">Instructor</div>
+          <div class="field-value editable" contenteditable="true" style="outline:none;">[Enter name or TBA]</div>
+        </div>
+        <div class="instructor-field">
+          <div class="field-label">Phone</div>
+          <div class="field-value editable" contenteditable="true" style="outline:none;">[Enter phone or TBA]</div>
+        </div>
+        <div class="instructor-field">
+          <div class="field-label">Office</div>
+          <div class="field-value editable" contenteditable="true" style="outline:none;">[Enter office location or TBA]</div>
+        </div>
+        <div class="instructor-field">
+          <div class="field-label">Email</div>
+          <div class="field-value editable" contenteditable="true" style="outline:none;">[Enter email or TBA]</div>
+        </div>
+        <div class="instructor-field" style="grid-column: span 2;">
+          <div class="field-label">Office Hours</div>
+          <div class="field-value editable" contenteditable="true" style="outline:none;">[Enter office hours or TBA]</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-badge">
+      <div class="badge hl">Undergraduate</div>
+      <div class="badge">Online</div>
+      <div class="badge">8 or 16 Weeks</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC STRIP -->
+<div class="toc-strip">
+  <span class="toc-label">Jump to:</span>
+  <a href="#course-info" class="toc-link">Course Info</a>
+  <a href="#objectives" class="toc-link">Objectives</a>
+  <a href="#requirements" class="toc-link">Requirements</a>
+  <a href="#grading" class="toc-link">Grading</a>
+  <a href="#schedule" class="toc-link">Schedule</a>
+  <a href="#attendance" class="toc-link">Attendance</a>
+  <a href="#policies" class="toc-link">University Policies</a>
+</div>
+
+<!-- CONTENT -->
+<div class="doc-content">
+
+  <!-- SECTION 1: COURSE INFO -->
+  <div class="section" id="course-info">
+    <div class="section-header">
+      <div class="section-num">Section 01</div>
+      <div class="section-title">Course Information</div>
+    </div>
+
+    <div class="two-col">
+      <div class="content-card">
+        <div class="card-title">Course Description</div>
+        <textarea class="input-area" rows="4" placeholder="Enter course description — limit to two to three sentences. Must match the description entered into the Curriculog system."></textarea>
+      </div>
+      <div class="content-card violet">
+        <div class="card-title violet">Additional Description</div>
+        <textarea class="input-area" rows="4" placeholder="Use this space to add any additional course description information."></textarea>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="content-card teal">
+        <div class="card-title teal">Prerequisite / Co-requisite</div>
+        <textarea class="input-area" rows="3" placeholder="Enter prerequisite and/or co-requisite courses, major requirements, or milestones."></textarea>
+      </div>
+      <div class="content-card">
+        <div class="card-title">Audience</div>
+        <textarea class="input-area" rows="3" placeholder="Briefly describe the target audience for the course."></textarea>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="content-card violet">
+        <div class="card-title violet">Credits</div>
+        <textarea class="input-area" rows="2" placeholder="Enter number of credits. If variable credit, explain difference in work per credit."></textarea>
+      </div>
+      <div class="content-card gold">
+        <div class="card-title">Course Fees &amp; Costs</div>
+        <textarea class="input-area" rows="2" placeholder="Enter any applicable fees or additional costs. Note whether funded or student's responsibility."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: LEARNING OBJECTIVES -->
+  <div class="section" id="objectives">
+    <div class="section-header">
+      <div class="section-num violet">Section 02</div>
+      <div class="section-title">Learning Objectives</div>
+    </div>
+    <div class="content-card violet">
+      <div class="card-title violet">After taking this course, students will be able to:</div>
+      <div style="background:rgba(72,49,108,0.07);border-radius:8px;padding:14px 16px;margin-bottom:16px;border-left:3px solid var(--dark-violet);">
+        <div style="font-family:'Raleway',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--dark-violet);margin-bottom:6px;">&#9432; Important Note</div>
+        <div style="font-family:'Merriweather',serif;font-size:12px;color:var(--rich-black);line-height:1.8;">Learning objectives must be written in <strong>behavioral/measurable terms</strong> (e.g., describe, create, perform &#8212; <em>NOT</em> understand, think) and must align with course activities and assessments/tests.<br><br>For definitions and examples of acceptable learning objective format: <a href="https://bit.ly/2OFV3vU" target="_blank" style="color:var(--dark-violet);font-weight:700;">Bloom&#39;s Taxonomy of Measurable Verbs &#8599;</a></div>
+      </div>
+      <div class="obj-list">
+        <div class="obj-row"><div class="obj-num">1</div><textarea class="obj-input" rows="1" placeholder="[Enter measurable learning objective]"></textarea></div>
+        <div class="obj-row"><div class="obj-num">2</div><textarea class="obj-input" rows="1" placeholder="[Enter measurable learning objective]"></textarea></div>
+        <div class="obj-row"><div class="obj-num">3</div><textarea class="obj-input" rows="1" placeholder="[Enter measurable learning objective]"></textarea></div>
+        <div class="obj-row"><div class="obj-num">4</div><textarea class="obj-input" rows="1" placeholder="[Enter measurable learning objective]"></textarea></div>
+        <div class="obj-row"><div class="obj-num">5</div><textarea class="obj-input" rows="1" placeholder="[Enter measurable learning objective]"></textarea></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: REQUIREMENTS -->
+  <div class="section" id="requirements">
+    <div class="section-header">
+      <div class="section-num teal">Section 03</div>
+      <div class="section-title">Texts, Supplies &amp; Requirements</div>
+    </div>
+
+    <div class="two-col">
+      <div class="content-card teal">
+        <div class="card-title teal">Required Texts &amp; Supplies</div>
+        <textarea class="input-area" rows="4" placeholder="Enter required texts and/or supplies. Note additional things required but not purchased."></textarea>
+      </div>
+      <div class="content-card seafoam">
+        <div class="card-title">Additional / Optional Texts</div>
+        <textarea class="input-area" rows="4" placeholder="Enter additional, suggested, or optional texts or supplies."></textarea>
+      </div>
+    </div>
+
+    <div class="content-card" style="margin-top:14px;">
+      <div class="card-title">Course Requirements &amp; Expectations</div>
+      <textarea class="input-area" rows="5" placeholder="Enter required activities and projects. Each activity/project should reference at least one learning objective. Double-numbered/500-level ugrad/grad courses must specify different assignments."></textarea>
+    </div>
+  </div>
+
+  <!-- SECTION 4: GRADING -->
+  <div class="section" id="grading">
+    <div class="section-header">
+      <div class="section-num gold">Section 04</div>
+      <div class="section-title">Grading</div>
+    </div>
+
+    <div class="content-card gold" style="margin-bottom:20px;">
+      <div class="card-title">Grading Overview</div>
+      <textarea class="input-area" rows="3" placeholder="Describe grading scheme, including grades or percentages for specific work or exams. Provide information to indicate how a student's grade is determined."></textarea>
+    </div>
+
+    <!-- Grade Allocation Table -->
+    <div style="margin-bottom:20px;">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Activity</th>
+            <th style="width:140px;">Point Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input class="td-input" type="text" value="Live Synchronous Session Participation">
+              <div style="background:rgba(33,33,82,0.06);border-radius:6px;padding:10px 12px;margin-top:8px;border-left:3px solid var(--dark-blue);">
+                <div style="font-family:'Merriweather',serif;font-size:11.5px;color:var(--rich-black);line-height:1.75;">Live (Synchronous) session participation can count for no more than <strong>15%</strong> of the overall course grade, but can count for less than 15% of the overall course grade.</div>
+              </div>
+            </td>
+            <td style="vertical-align:top;"><input class="td-input" type="text" value="10" style="width:80px;"></td>
+          </tr>
+          <tr>
+            <td><input class="td-input" type="text" placeholder="Live Synchronous Session Participation"></td>
+            <td><input class="td-input" type="text" placeholder="30" style="width:80px;"></td>
+          </tr>
+          <tr>
+            <td><input class="td-input" type="text" placeholder="Live Synchronous Session Participation"></td>
+            <td><input class="td-input" type="text" placeholder="30" style="width:80px;"></td>
+          </tr>
+          <tr>
+            <td><input class="td-input" type="text" placeholder="Live Synchronous Session Participation"></td>
+            <td><input class="td-input" type="text" placeholder="30" style="width:80px;"></td>
+          </tr>
+          <tr style="background:rgba(33,33,82,0.04);">
+            <td class="total">Total Possible Points</td>
+            <td class="total">100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Grading Scale Table -->
+    <table class="styled-table violet">
+      <thead>
+        <tr>
+          <th>Grade</th>
+          <th>Grade Points / Credit</th>
+          <th>Percentage Range</th>
+          <th>Total Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="grade-a"><td class="grade">A</td><td>4.00</td><td>94 – 100%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-a"><td class="grade">A-</td><td>3.667</td><td>90 – 93%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-b"><td class="grade">B+</td><td>3.333</td><td>87 – 89%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-b"><td class="grade">B</td><td>3.000</td><td>83 – 86%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-b"><td class="grade">B-</td><td>2.667</td><td>80 – 82%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-c"><td class="grade">C+</td><td>2.333</td><td>77 – 79%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-c"><td class="grade">C</td><td>2.000</td><td>73 – 76%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-c"><td class="grade">C-</td><td>1.667</td><td>70 – 72%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-d"><td class="grade">D</td><td>1.000</td><td>60 – 69%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+        <tr class="grade-f"><td class="grade">F</td><td>0</td><td>0 – 59%</td><td><input class="td-input" type="text" style="width:80px;"></td></tr>
+      </tbody>
+    </table>
+    <div style="font-family:'Merriweather',serif;font-size:11px;color:var(--rich-black);opacity:0.5;margin-top:8px;font-style:italic;">Source: <a href="http://www.syr.edu/registrar/students/grades/faq.html" target="_blank" style="color:var(--dark-violet);">syr.edu/registrar</a></div>
+  </div>
+
+  <!-- SECTION 5: COURSE SCHEDULE -->
+  <div class="section" id="schedule">
+    <div class="section-header">
+      <div class="section-num">Section 05</div>
+      <div class="section-title">Course Schedule</div>
+    </div>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Topic</th>
+          <th>Required Reading &amp; Assignment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="week-num">Week 1</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 2</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 3</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 4</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 5</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 6</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 7</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+        <tr><td class="week-num">Week 8</td><td><textarea rows="2" placeholder="Enter topic..."></textarea></td><td><textarea rows="2" placeholder="Enter reading/assignment..."></textarea></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 6: ATTENDANCE -->
+  <div class="section" id="attendance">
+    <div class="section-header">
+      <div class="section-num teal">Section 06</div>
+      <div class="section-title">Attendance Policies</div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-title">University Attendance Policy</div>
+      <div class="policy-body">Attendance in classes is expected in all courses at Syracuse University. Students are expected to arrive on campus in time to attend the first meeting of all classes for which they are registered. Students who do not attend classes starting with the first scheduled meeting may be academically withdrawn as not making progress toward degree by failure to attend.<br><br>It is a federal requirement that students who do not attend or cease to attend a class be reported at the time of determination by the faculty. Faculty should use "ESPR" and "MSPR" in Orange Success to alert the Office of the Registrar and the Office of Financial Aid. More information: <a href="https://orangesuccess.syr.edu/getting-started-2/" target="_blank">Orange Success Website</a></div>
+    </div>
+
+    <div class="content-card">
+      <div class="card-title">Course-Specific Attendance Policy</div>
+      <textarea class="input-area" rows="4" placeholder="Enter course-specific information on attendance, late work, make-up work, examinations outside normal class time, etc."></textarea>
+    </div>
+
+    <div class="policy-block" style="margin-top:14px;">
+      <div class="policy-title">Live Session Attendance Policy</div>
+      <div class="policy-body">Attendance for live sessions is mandatory. Students must request approval to miss a live session due to an unavoidable conflict. Any sessions missed without approval will result in a "0" for that week's live session grade.<br><br>This course will be conducted online with <strong>eight (8) synchronous, 90-minute sessions.</strong></div>
+    </div>
+
+    <div class="content-card teal" style="margin-top:14px;">
+      <div class="card-title teal">Excusable Absence Policy</div>
+      <ul class="styled-list">
+        <li><div class="list-dot teal"></div>Student must provide proof of conflict to the instructor and request approval.</li>
+        <li><div class="list-dot teal"></div>If approved, instructor must provide an alternative assignment.</li>
+        <li><div class="list-dot teal"></div>The alternative assignment should be completed by the next live (synchronous) session.</li>
+        <li><div class="list-dot teal"></div>Each live session will be recorded — registration and continued enrollment constitutes consent.</li>
+      </ul>
+    </div>
+
+    <!-- Live Session Schedule Table -->
+    <div style="margin-top:20px;">
+      <table class="live-table">
+        <thead>
+          <tr>
+            <th style="width:12%;">Week</th>
+            <th>Start Date</th>
+            <th>Close Date</th>
+            <th>Live Session Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="week-num">Week 1</td><td><input type="text" placeholder="e.g. 8/1/25"></td><td><input type="text" placeholder="e.g. 8/7/25"></td><td><input type="text" placeholder="e.g. 8/2/25"></td></tr>
+          <tr><td class="week-num">Week 2</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 3</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 4</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 5</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 6</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 7</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+          <tr><td class="week-num">Week 8</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 7: UNIVERSITY POLICIES -->
+  <div class="section" id="policies">
+    <div class="section-header">
+      <div class="section-num violet">Section 07</div>
+      <div class="section-title">Syracuse University Policies</div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-title">Diversity &amp; Disability</div>
+      <div class="policy-body">Ensuring that students are aware of their rights and responsibilities in a diverse, inclusive, accessible, bias-free campus community: <a href="https://www.syracuse.edu/life/accessibilitydiversity/" target="_blank">Diversity &amp; Accessibility Website</a></div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-title">Religious Observances</div>
+      <div class="policy-body">Steps to follow to request accommodations for the observance of religious holidays: <a href="http://supolicies.syr.edu/studs/religious_observance.htm" target="_blank">SU Religious Observance Policy</a>. Students should review this policy and make required arrangements at the beginning of each semester.</div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-title">Disability-Related Accommodations</div>
+      <div class="policy-body">Syracuse University values diversity and inclusion. There may be aspects of the instruction or design of this course that result in barriers to your inclusion and full participation. Students are invited to meet with the instructor to discuss strategies and/or accommodations that may be essential to their success, and to collaborate with the Center for Disability Resources (CDR).<br><br>Contact CDR: <strong>(315) 443-4498</strong> &nbsp;|&nbsp; <a href="mailto:disabilityresources@syr.edu">disabilityresources@syr.edu</a> &nbsp;|&nbsp; <a href="https://disabilityresources.syr.edu/" target="_blank">disabilityresources.syr.edu</a></div>
+    </div>
+
+    <div class="policy-block">
+      <div class="policy-title">Academic Integrity Policy</div>
+      <div class="policy-body">Syracuse University's Academic Integrity Policy reflects the high value that we, as a university community, place on honesty in academic work. Students are accountable for the integrity of all work they submit and must learn about course-specific expectations as well as university-wide academic integrity expectations. The policy governs appropriate citation, use of sources, integrity of work submitted in exams and assignments, and the veracity of signatures on attendance sheets.<br><br>SU students are required to read an online summary of the University's academic integrity expectations and provide an electronic signature agreeing to abide by them twice a year during pre-term check-in on MySlice.</div>
+    </div>
+
+  </div>
+
+</div><!-- /doc-content -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-text">Syracuse University &nbsp;·&nbsp; Undergraduate Course Syllabus Template &nbsp;·&nbsp; Revised July 2021</div>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+</body>
+</html>

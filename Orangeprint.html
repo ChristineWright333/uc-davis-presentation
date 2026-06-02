@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orangeprint — Course Development Planning Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seafoam: #D4F0ED;
+    --rich-black: #011313;
+    --dark-blue: #212152;
+    --dark-violet: #48316C;
+    --warm-sky: #96DEE5;
+    --light-violet: #F4AEE2;
+    --white: #FFFFFF;
+    --soft-gray: #E8EAEB;
+    --gold: #E2A029;
+    --peach: #FFBF8A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Merriweather', Georgia, serif;
+    background: var(--seafoam);
+    color: var(--rich-black);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background: var(--dark-blue);
+    padding: 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .doc-header::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(150,222,229,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-sky);
+    margin-bottom: 10px;
+  }
+
+  .header-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .header-title span {
+    color: var(--warm-sky);
+  }
+
+  .header-sub {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--seafoam);
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 28px;
+    opacity: 0.88;
+  }
+
+  .header-fields {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .field-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-sky);
+    opacity: 0.7;
+  }
+
+  .field-input {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(150,222,229,0.2);
+    border-radius: 6px;
+    padding: 8px 14px;
+    min-width: 220px;
+  }
+
+  /* ── CONTENT ── */
+  .doc-content {
+    padding: 40px 60px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── BLUEPRINT INTRO ── */
+  .blueprint-intro {
+    background: var(--dark-violet);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .blueprint-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .blueprint-text {
+    font-family: 'Merriweather', serif;
+    font-size: 13.5px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.75;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 36px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(33,33,82,0.12);
+  }
+
+  .section-num {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--dark-blue);
+    color: var(--seafoam);
+    padding: 4px 12px;
+    border-radius: 50px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--dark-blue);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── SUBSECTION ── */
+  .subsection {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(33,33,82,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subsection::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--dark-blue);
+  }
+
+  .subsection.violet::before { background: var(--dark-violet); }
+  .subsection.sky::before { background: var(--warm-sky); }
+  .subsection.gold::before { background: var(--gold); }
+
+  .subsection-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--dark-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .subsection.violet .subsection-title { color: var(--dark-violet); }
+
+  /* ── TEXTAREA ── */
+  .input-area {
+    width: 100%;
+    min-height: 80px;
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--rich-black);
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .input-area:focus { border-color: var(--dark-blue); }
+
+  /* ── OBJECTIVES ── */
+  .objectives-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .objective-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .obj-bullet {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .obj-input {
+    flex: 1;
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+    color: var(--rich-black);
+    line-height: 1.6;
+    outline: none;
+    transition: border-color 0.2s;
+    min-height: 44px;
+  }
+
+  .obj-input:focus { border-color: var(--dark-blue); }
+
+  /* ── TABLES ── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+
+  .styled-table th {
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .styled-table th:first-child { border-radius: 8px 0 0 0; }
+  .styled-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .styled-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(33,33,82,0.07);
+    vertical-align: top;
+  }
+
+  .styled-table tr:nth-child(even) td { background: rgba(212,240,237,0.4); }
+  .styled-table tr:last-child td { border-bottom: none; }
+
+  .styled-table td textarea,
+  .styled-table td input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(33,33,82,0.2);
+    padding: 4px 0;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    line-height: 1.6;
+    outline: none;
+    resize: none;
+    min-height: 36px;
+  }
+
+  .styled-table.violet th { background: var(--dark-violet); }
+  .styled-table.gold th { background: #7A2C10; }
+
+  /* ── HINT TEXT ── */
+  .hint {
+    font-family: 'Merriweather', serif;
+    font-size: 11.5px;
+    font-style: italic;
+    color: var(--dark-blue);
+    opacity: 0.65;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .hint a {
+    color: var(--dark-violet);
+    font-weight: 700;
+  }
+
+  /* ── APPENDIX ── */
+  .appendix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .appendix-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(33,33,82,0.08);
+  }
+
+  .appendix-card-header {
+    padding: 14px 18px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--white);
+  }
+
+  .appendix-card-header.blue { background: var(--dark-blue); }
+  .appendix-card-header.violet { background: var(--dark-violet); }
+  .appendix-card-header.gold { background: #7A2C10; }
+
+  .appendix-card-body {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .appendix-field { display: flex; flex-direction: column; gap: 4px; }
+
+  .appendix-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dark-blue);
+    opacity: 0.6;
+  }
+
+  .appendix-input {
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    outline: none;
+    min-height: 40px;
+    resize: vertical;
+    line-height: 1.6;
+    width: 100%;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+    border: 1px solid rgba(33,33,82,0.08);
+  }
+
+  .toc-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--dark-blue);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(33,33,82,0.08);
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark-blue);
+    cursor: pointer;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(33,33,82,0.05);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .toc-item:hover { color: var(--dark-violet); }
+
+  .toc-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--warm-sky);
+    flex-shrink: 0;
+  }
+
+  /* ── PROGRAM REQS TABLE ── */
+  .req-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+
+  .req-table th {
+    background: var(--dark-blue);
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 10px 14px;
+    text-align: left;
+  }
+
+  .req-table th:first-child { border-radius: 8px 0 0 0; }
+  .req-table th:last-child { border-radius: 0 8px 0 0; }
+
+  .req-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(33,33,82,0.08);
+    font-family: 'Merriweather', serif;
+    font-size: 12.5px;
+    color: var(--rich-black);
+    vertical-align: middle;
+  }
+
+  .req-table tr:last-child td { border-bottom: none; }
+  .req-table tr:nth-child(even) td { background: rgba(212,240,237,0.4); }
+
+  .req-input {
+    background: var(--seafoam);
+    border: 1px solid rgba(33,33,82,0.1);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-family: 'Merriweather', serif;
+    font-size: 12px;
+    color: var(--rich-black);
+    outline: none;
+    width: 100%;
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: var(--dark-blue);
+    padding: 20px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warm-sky);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+  }
+
+  .print-btn {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--dark-violet);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .print-btn:hover { background: var(--warm-sky); color: var(--dark-blue); }
+
+  @media print {
+    .doc-footer { display: none; }
+    .input-area, .obj-input, .appendix-input, .req-input { border: 1px solid #ccc; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="header-eyebrow">Syracuse University — Online Course Development</div>
+  <div class="header-title">Orange<span>print</span></div>
+  <div class="header-sub">Just as a blueprint serves as a set of plans to build a home, the Orangeprint serves as a set of plans to build your online course. Together, the instructor and instructional designer work to complete this plan.</div>
+  <div class="header-fields">
+    <div class="header-field">
+      <div class="field-label">Course Number &amp; Name</div>
+      <div class="field-input" contenteditable="true" style="outline:none;">[Course Number and Name]</div>
+    </div>
+    <div class="header-field">
+      <div class="field-label">Developer Name</div>
+      <div class="field-input" contenteditable="true" style="outline:none;">[Developer Name]</div>
+    </div>
+    <div class="header-field">
+      <div class="field-label">Week</div>
+      <div class="field-input" contenteditable="true" style="outline:none;">Week 1</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="doc-content">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <div class="toc-grid">
+      <a href="#course-reqs" class="toc-item"><div class="toc-dot"></div>Course Requirements</a>
+      <a href="#weekly-overview" class="toc-item"><div class="toc-dot"></div>Weekly Overview &amp; Objectives</a>
+      <a href="#activities" class="toc-item"><div class="toc-dot"></div>Weekly Activities</a>
+      <a href="#live-session" class="toc-item"><div class="toc-dot"></div>Live Session Plan</a>
+      <a href="#async" class="toc-item"><div class="toc-dot"></div>Asynchronous Lecture Content</a>
+      <a href="#appendix" class="toc-item"><div class="toc-dot"></div>Appendices A, B &amp; C</a>
+    </div>
+  </div>
+
+  <!-- SECTION 1: COURSE REQUIREMENTS -->
+  <div class="section" id="course-reqs">
+    <div class="section-header">
+      <div class="section-num">Section 01</div>
+      <div class="section-title">Course Requirements</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Program Requirements</div>
+      <div class="hint">Each program has a list of requirements each course must meet. Below are the course requirements identified by your program for this course.</div>
+      <table class="req-table">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Time Required</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Synchronous / Live Class Time</td>
+            <td><input class="req-input" type="text" value="90 minutes"></td>
+            <td><input class="req-input" type="text" value="Each week"></td>
+          </tr>
+          <tr>
+            <td>Asynchronous Instructional Content</td>
+            <td><input class="req-input" type="text" placeholder="Enter time requirement"></td>
+            <td><input class="req-input" type="text" placeholder="Enter frequency"></td>
+          </tr>
+          <tr>
+            <td><input class="req-input" type="text" placeholder="[Add program-specific requirement]"></td>
+            <td><input class="req-input" type="text" placeholder=""></td>
+            <td><input class="req-input" type="text" placeholder=""></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection violet">
+      <div class="subsection-title">Course-Specific Information</div>
+      <div class="hint">List the number of weeks in the course, learning outcomes for the entire course, and any course-specific standards that have been identified.</div>
+      <textarea class="input-area" rows="4" placeholder="Enter course-specific information here..."></textarea>
+    </div>
+  </div>
+
+  <!-- SECTION 2: WEEKLY OVERVIEW -->
+  <div class="section" id="weekly-overview">
+    <div class="section-header">
+      <div class="section-num">Section 02</div>
+      <div class="section-title">Identify Weekly Overview &amp; Objectives</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Weekly Overview / Introduction</div>
+      <div class="hint">In a few sentences, describe the overall learning goals of the week here.</div>
+      <textarea class="input-area" rows="4" placeholder="Write this week's intro/overview here..."></textarea>
+    </div>
+
+    <div class="subsection violet">
+      <div class="subsection-title">Weekly Objectives</div>
+      <div class="hint">Please describe your overall weekly goal(s) and list the weekly objectives. By the end of this week, learners will be able to: <a href="https://www.utica.edu/academic/Assessment/new/Blooms%20Taxonomy%20-%20Best.pdf" target="_blank">Bloom's Taxonomy Resource ↗</a></div>
+      <div class="objectives-list">
+        <div class="objective-row">
+          <div class="obj-bullet">1</div>
+          <textarea class="obj-input" rows="1" placeholder="[List measurable objective here]"></textarea>
+        </div>
+        <div class="objective-row">
+          <div class="obj-bullet">2</div>
+          <textarea class="obj-input" rows="1" placeholder="[List measurable objective here]"></textarea>
+        </div>
+        <div class="objective-row">
+          <div class="obj-bullet">3</div>
+          <textarea class="obj-input" rows="1" placeholder="[List measurable objective here]"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: WEEKLY ACTIVITIES -->
+  <div class="section" id="activities">
+    <div class="section-header">
+      <div class="section-num">Section 03</div>
+      <div class="section-title">List All Weekly Activities</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Readings &amp; Resources</div>
+      <div class="hint">List all readings required for this week in APA format. Indicate if each is required or supplemental. <a href="https://library.syr.edu/staff/subjects.php" target="_blank">Syracuse University Subject Librarians ↗</a></div>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Reading or Resource</th>
+            <th>Link</th>
+            <th>Required or Supplemental?</th>
+            <th>Est. Time to Complete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection violet">
+      <div class="subsection-title">Assignments</div>
+      <div class="hint">List all assignments for this week. Include the assignment type (paper, forum post, activity, etc.).</div>
+      <table class="styled-table violet">
+        <thead>
+          <tr>
+            <th>Assignment Title</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Points</th>
+            <th>Rubric?</th>
+            <th>Est. Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+        </tbody>
+      </table>
+      <div class="hint" style="margin-top:10px;">For each assignment, please complete the appropriate worksheet in Appendix A or B below. <a href="https://effectiveness.syr.edu/assessment/assessment-resources/rubric-library/" target="_blank">Rubric Library ↗</a></div>
+    </div>
+
+    <div class="subsection sky">
+      <div class="subsection-title">Student Assessments</div>
+      <div class="hint">List any assessments planned for this week (exams, quizzes, etc.).</div>
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Assessment Title</th>
+            <th>Type</th>
+            <th>Due Date</th>
+            <th>Point Value</th>
+            <th>Rubric Used?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+          <tr><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td><td><textarea rows="2"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 4: LIVE SESSION -->
+  <div class="section" id="live-session">
+    <div class="section-header">
+      <div class="section-num">Section 04</div>
+      <div class="section-title">Weekly Live Session Plan</div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Live Session Plan (Synchronous)</div>
+      <div class="hint">Provide an outline of the content for your live session. Include any activities, PowerPoint presentations, and discussion prompts you plan to use.</div>
+      <textarea class="input-area" rows="6" placeholder="Provide live session outline here...&#10;&#10;• Topic 1&#10;• Activity&#10;• Discussion prompt&#10;• Closing"></textarea>
+    </div>
+  </div>
+
+  <!-- SECTION 5: ASYNC CONTENT -->
+  <div class="section" id="async">
+    <div class="section-header">
+      <div class="section-num">Section 05</div>
+      <div class="section-title">Asynchronous Lecture Content</div>
+    </div>
+    <div class="subsection violet">
+      <div class="subsection-title">Asynchronous Lecture Topics</div>
+      <div class="hint">What topics will you cover in your asynchronous lecture? List the topics and sub-topics you will use as an outline for your lecture script.</div>
+      <textarea class="input-area" rows="5" placeholder="Main lecture topic...&#10;  • Sub-topic 1&#10;  • Sub-topic 2&#10;  • Sub-topic 3"></textarea>
+    </div>
+    <div class="subsection gold">
+      <div class="subsection-title">Additional Thoughts</div>
+      <div class="hint">Include additional ideas for supporting materials, video concepts (expert interviews, onsite visits, theory lectures), or any other ideas for this week's content.</div>
+      <textarea class="input-area" rows="4" placeholder="List additional thoughts and ideas here..."></textarea>
+    </div>
+  </div>
+
+  <!-- APPENDICES -->
+  <div class="section" id="appendix">
+    <div class="section-header">
+      <div class="section-num">Appendices</div>
+      <div class="section-title">Assignment &amp; Assessment Worksheets</div>
+    </div>
+
+    <div class="appendix-grid">
+      <!-- Appendix A -->
+      <div class="appendix-card">
+        <div class="appendix-card-header blue">Appendix A — Paper / Activity</div>
+        <div class="appendix-card-body">
+          <div class="appendix-field"><div class="appendix-label">Assignment Title</div><textarea class="appendix-input" rows="1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Assignment Type</div><textarea class="appendix-input" rows="1" placeholder="Paper, activity, etc."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Week Given</div><textarea class="appendix-input" rows="1" placeholder="e.g., Week 1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Due Date</div><textarea class="appendix-input" rows="1" placeholder="e.g., Wednesday 11:59 PM EST"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Point Value</div><textarea class="appendix-input" rows="1" placeholder="e.g., 30 points"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Introduction / Purpose</div><textarea class="appendix-input" rows="3" placeholder="Intro/overview paragraph..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Instructions</div><textarea class="appendix-input" rows="4" placeholder="Detailed instructions..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Submission Guidelines</div><textarea class="appendix-input" rows="3" placeholder="File format, individual/group, attempts..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Grading Rubric</div><textarea class="appendix-input" rows="3" placeholder="Insert or describe rubric here..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Appendix B -->
+      <div class="appendix-card">
+        <div class="appendix-card-header violet">Appendix B — Discussion Board</div>
+        <div class="appendix-card-body">
+          <div class="appendix-field"><div class="appendix-label">Assignment Title</div><textarea class="appendix-input" rows="1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Assignment Type</div><textarea class="appendix-input" rows="1" placeholder="Discussion, forum, etc."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Week Given</div><textarea class="appendix-input" rows="1" placeholder="e.g., Week 1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Point Value</div><textarea class="appendix-input" rows="1" placeholder="e.g., 20 points"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Discussion Prompt</div><textarea class="appendix-input" rows="3" placeholder="Provide the discussion prompt..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Instructions</div><textarea class="appendix-input" rows="4" placeholder="Instructions for the discussion..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Submission Guidelines</div><textarea class="appendix-input" rows="3" placeholder="Thread visibility, peer response requirements, post length..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Grading Rubric</div><textarea class="appendix-input" rows="3" placeholder="Insert or describe rubric here..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- Appendix C -->
+      <div class="appendix-card">
+        <div class="appendix-card-header gold">Appendix C — Assessment</div>
+        <div class="appendix-card-body">
+          <div class="appendix-field"><div class="appendix-label">Assessment Title</div><textarea class="appendix-input" rows="1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Assessment Type</div><textarea class="appendix-input" rows="1" placeholder="Quiz, exam, etc."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Due Date</div><textarea class="appendix-input" rows="1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Points Per Question</div><textarea class="appendix-input" rows="1"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Time Limit</div><textarea class="appendix-input" rows="1" placeholder="How long to complete?"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Availability Window</div><textarea class="appendix-input" rows="1" placeholder="Limit access dates?"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Show Results</div><textarea class="appendix-input" rows="2" placeholder="When and how to display results?"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Randomize Questions?</div><textarea class="appendix-input" rows="1" placeholder="Yes / No"></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Assessment Instructions</div><textarea class="appendix-input" rows="3" placeholder="Instructions for students..."></textarea></div>
+          <div class="appendix-field"><div class="appendix-label">Questions / Answer Key</div><textarea class="appendix-input" rows="4" placeholder="List questions and correct answers, or reference a test bank..."></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /doc-content -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-text">Syracuse University — Online Course Development &nbsp;·&nbsp; Orangeprint Tool</div>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Course Architecture — Week 1 Sample</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seafoam: #D4F0ED;
+    --rich-black: #011313;
+    --dark-blue: #212152;
+    --dark-violet: #48316C;
+    --warm-sky: #96DEE5;
+    --light-violet: #F4AEE2;
+    --white: #FFFFFF;
+    --soft-gray: #E8EAEB;
+    --gold: #E2A029;
+    --green: #0A3642;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Merriweather',Georgia,serif; background:var(--soft-gray); color:var(--rich-black); }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background:var(--dark-blue);
+    padding:36px 56px 30px;
+    position:relative;overflow:hidden;
+  }
+  .doc-header::before {
+    content:'';position:absolute;top:-80px;right:-80px;
+    width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(circle,rgba(150,222,229,0.1) 0%,transparent 70%);
+  }
+  .header-inner { position:relative;z-index:1; }
+  .header-eyebrow {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:800;
+    letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--warm-sky);opacity:0.75;margin-bottom:10px;
+  }
+  .header-title {
+    font-family:'Raleway',sans-serif;font-size:34px;font-weight:900;
+    color:var(--white);letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px;
+  }
+  .header-title span { color:var(--warm-sky); }
+  .header-sub {
+    font-family:'Merriweather',serif;font-size:13px;font-weight:300;
+    color:var(--seafoam);opacity:0.85;line-height:1.7;
+    max-width:620px;margin-bottom:22px;
+  }
+  .header-chips { display:flex;gap:10px;flex-wrap:wrap; }
+  .chip {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;
+    letter-spacing:0.15em;text-transform:uppercase;
+    padding:5px 14px;border-radius:50px;
+    background:rgba(255,255,255,0.08);color:var(--white);
+    border:1px solid rgba(255,255,255,0.12);
+  }
+  .chip.hl { background:var(--dark-violet);border-color:var(--light-violet);color:var(--light-violet); }
+
+  /* ── LAYOUT ── */
+  .page-body {
+    display:grid;
+    grid-template-columns:260px 1fr;
+    min-height:calc(100vh - 200px);
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    background:var(--dark-blue);
+    padding:28px 0;
+    border-right:1px solid rgba(150,222,229,0.1);
+  }
+  .sidebar-section-label {
+    font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.18em;
+    color:var(--warm-sky);opacity:0.45;
+    padding:0 22px;margin-bottom:8px;margin-top:20px;
+  }
+  .sidebar-section-label:first-child { margin-top:0; }
+  .sidebar-item {
+    display:flex;align-items:center;gap:10px;
+    padding:9px 22px;cursor:pointer;
+    transition:background 0.2s;
+  }
+  .sidebar-item:hover { background:rgba(255,255,255,0.05); }
+  .sidebar-item.active { background:rgba(150,222,229,0.1);border-left:3px solid var(--warm-sky); }
+  .sidebar-item.active .sidebar-item-text { color:var(--white); }
+  .sidebar-icon {
+    width:28px;height:28px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;flex-shrink:0;
+  }
+  .icon-blue { background:rgba(150,222,229,0.12); }
+  .icon-violet { background:rgba(244,174,226,0.1); }
+  .icon-green { background:rgba(52,211,153,0.1); }
+  .icon-gold { background:rgba(226,160,41,0.12); }
+  .sidebar-item-text {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:600;
+    color:var(--seafoam);opacity:0.7;line-height:1.3;
+  }
+  .sidebar-item.active .sidebar-item-text { opacity:1; }
+  .sidebar-divider {
+    height:1px;background:rgba(150,222,229,0.08);margin:16px 22px;
+  }
+  .sidebar-week-badge {
+    margin:0 22px 6px;
+    background:rgba(150,222,229,0.08);border-radius:8px;
+    padding:10px 14px;border:1px solid rgba(150,222,229,0.1);
+  }
+  .week-badge-label {
+    font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.15em;
+    color:var(--warm-sky);opacity:0.6;margin-bottom:3px;
+  }
+  .week-badge-title {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+    color:var(--white);line-height:1.3;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main-content {
+    background:var(--white);
+    padding:36px 44px 80px;
+  }
+
+  /* ── ID NOTE ── */
+  .id-note {
+    background:rgba(72,49,108,0.06);border-radius:8px;
+    padding:12px 16px;margin-bottom:20px;
+    border-left:3px solid var(--dark-violet);
+    display:flex;align-items:flex-start;gap:10px;
+  }
+  .id-note-badge {
+    font-family:'Raleway',sans-serif;font-size:9px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.12em;
+    background:var(--dark-violet);color:var(--light-violet);
+    padding:3px 8px;border-radius:3px;flex-shrink:0;white-space:nowrap;
+    margin-top:1px;
+  }
+  .id-note-text {
+    font-family:'Merriweather',serif;font-size:11.5px;
+    font-style:italic;color:var(--dark-violet);line-height:1.65;
+  }
+
+  /* ── SECTION HEADING ── */
+  .content-section { margin-bottom:36px; }
+  .section-label {
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:16px;padding-bottom:10px;
+    border-bottom:2px solid rgba(33,33,82,0.08);
+  }
+  .section-tag {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.15em;
+    padding:4px 12px;border-radius:50px;
+    flex-shrink:0;
+  }
+  .tag-blue { background:var(--dark-blue);color:var(--seafoam); }
+  .tag-violet { background:var(--dark-violet);color:var(--light-violet); }
+  .tag-green { background:var(--green);color:var(--warm-sky); }
+  .tag-gold { background:#7A2C10;color:#FFBF8A; }
+  .section-heading {
+    font-family:'Raleway',sans-serif;font-size:19px;font-weight:900;
+    color:var(--dark-blue);letter-spacing:-0.01em;
+  }
+
+  /* ── TO DO TABLE ── */
+  .todo-note {
+    font-family:'Merriweather',serif;font-size:12.5px;
+    color:var(--rich-black);line-height:1.7;margin-bottom:16px;
+    font-style:italic;opacity:0.75;
+  }
+  .todo-table { width:100%;border-collapse:collapse;margin-bottom:8px; }
+  .todo-table th {
+    background:var(--dark-blue);color:var(--white);
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.1em;
+    padding:10px 16px;text-align:left;
+  }
+  .todo-table th:first-child { border-radius:8px 0 0 0; }
+  .todo-table th:last-child { border-radius:0 8px 0 0; }
+  .todo-table td {
+    padding:12px 16px;border-bottom:1px solid rgba(33,33,82,0.06);
+    font-family:'Merriweather',serif;font-size:12.5px;
+    color:var(--rich-black);vertical-align:middle;line-height:1.5;
+  }
+  .todo-table tr:last-child td { border-bottom:none; }
+  .todo-table tr:nth-child(even) td { background:rgba(212,240,237,0.25); }
+
+  .activity-type-badge {
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.1em;
+    padding:4px 10px;border-radius:50px;white-space:nowrap;
+  }
+  .type-reading { background:rgba(33,33,82,0.08);color:var(--dark-blue); }
+  .type-live { background:rgba(226,160,41,0.12);color:#7A2C10; }
+  .type-assignment { background:rgba(72,49,108,0.1);color:var(--dark-violet); }
+
+  .activity-name {
+    font-family:'Merriweather',serif;font-size:12.5px;
+    color:var(--rich-black);line-height:1.5;
+  }
+  .activity-name strong { color:var(--dark-blue);font-weight:700; }
+
+  .due-date {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+    color:var(--dark-violet);white-space:nowrap;
+  }
+
+  .est-time {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:600;
+    color:var(--rich-black);opacity:0.55;white-space:nowrap;
+  }
+
+  /* ── ACTIVITIES ── */
+  .activity-card {
+    border-radius:12px;padding:20px 22px;
+    margin-bottom:14px;
+    border:1px solid rgba(33,33,82,0.08);
+    position:relative;overflow:hidden;
+  }
+  .activity-card::before {
+    content:'';position:absolute;top:0;left:0;
+    width:4px;height:100%;
+  }
+  .activity-card.reading::before { background:var(--dark-blue); }
+  .activity-card.live::before { background:var(--gold); }
+  .activity-card.assignment::before { background:var(--dark-violet); }
+  .activity-card.reading { background:rgba(212,240,237,0.2); }
+  .activity-card.live { background:rgba(226,160,41,0.05); }
+  .activity-card.assignment { background:var(--white); }
+
+  .activity-card-header {
+    display:flex;align-items:center;gap:12px;margin-bottom:10px;
+  }
+  .activity-card-title {
+    font-family:'Raleway',sans-serif;font-size:14px;font-weight:800;
+    color:var(--dark-blue);flex:1;
+  }
+  .activity-card-body {
+    font-family:'Merriweather',serif;font-size:12.5px;
+    color:var(--rich-black);line-height:1.8;
+  }
+  .activity-link {
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+    color:var(--dark-blue);text-decoration:none;
+    background:rgba(33,33,82,0.07);padding:5px 12px;
+    border-radius:50px;margin-top:8px;transition:all 0.2s;
+    border:1px solid rgba(33,33,82,0.1);
+  }
+  .activity-link:hover { background:var(--dark-blue);color:var(--white); }
+
+  /* ── ASSIGNMENT ── */
+  .assignment-wrap {
+    background:var(--white);border-radius:14px;
+    border:1px solid rgba(33,33,82,0.1);
+    overflow:hidden;margin-bottom:14px;
+  }
+  .assignment-header {
+    background:var(--dark-violet);padding:14px 22px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .assignment-title {
+    font-family:'Raleway',sans-serif;font-size:14px;font-weight:800;
+    color:var(--white);flex:1;line-height:1.3;
+  }
+  .assignment-due {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;
+    color:var(--light-violet);background:rgba(244,174,226,0.12);
+    padding:4px 12px;border-radius:50px;white-space:nowrap;
+    border:1px solid rgba(244,174,226,0.2);
+  }
+  .assignment-body { padding:22px 24px; }
+  .assignment-intro {
+    font-family:'Merriweather',serif;font-size:13px;
+    color:var(--rich-black);line-height:1.85;margin-bottom:18px;
+  }
+  .assignment-instructions { margin-bottom:18px; }
+  .instruction-item {
+    display:flex;align-items:flex-start;gap:12px;
+    margin-bottom:12px;
+  }
+  .instruction-num {
+    width:24px;height:24px;border-radius:50%;
+    background:var(--dark-violet);color:var(--white);
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;margin-top:2px;
+  }
+  .instruction-text {
+    font-family:'Merriweather',serif;font-size:12.5px;
+    color:var(--rich-black);line-height:1.75;
+  }
+  .instruction-text strong { color:var(--dark-violet);font-weight:700; }
+
+  .peer-note {
+    background:rgba(33,33,82,0.05);border-radius:8px;
+    padding:12px 16px;margin-bottom:18px;
+    font-family:'Merriweather',serif;font-size:12px;
+    color:var(--rich-black);line-height:1.7;
+    border-left:3px solid var(--dark-blue);
+  }
+
+  /* ── SAMPLE POSTS ── */
+  .sample-label {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.15em;
+    color:var(--dark-blue);opacity:0.5;margin-bottom:12px;
+  }
+  .sample-post {
+    background:var(--seafoam);border-radius:10px;
+    padding:18px 20px;margin-bottom:10px;
+    border:1px solid rgba(33,33,82,0.08);
+  }
+  .sample-post-header {
+    display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .sample-avatar {
+    width:32px;height:32px;border-radius:50%;
+    background:var(--dark-blue);color:var(--seafoam);
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .sample-avatar.violet { background:var(--dark-violet); }
+  .sample-post-meta { flex:1; }
+  .sample-poster {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:800;
+    color:var(--dark-blue);
+  }
+  .sample-post-type {
+    font-family:'Raleway',sans-serif;font-size:10px;font-weight:700;
+    color:var(--dark-blue);opacity:0.5;
+  }
+  .sample-section-title {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.08em;
+    color:var(--dark-blue);margin-bottom:5px;margin-top:10px;
+  }
+  .sample-text {
+    font-family:'Merriweather',serif;font-size:12px;
+    color:var(--rich-black);line-height:1.8;
+  }
+  .sample-reply {
+    background:rgba(72,49,108,0.05);border-radius:10px;
+    padding:14px 18px;margin-top:8px;
+    border:1px solid rgba(72,49,108,0.08);
+    border-left:3px solid var(--dark-violet);
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background:var(--dark-blue);padding:18px 56px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .footer-text {
+    font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;
+    color:var(--warm-sky);opacity:0.65;letter-spacing:0.08em;
+  }
+  .print-btn {
+    font-family:'Raleway',sans-serif;font-size:12px;font-weight:700;
+    color:var(--white);background:var(--dark-violet);border:none;
+    padding:8px 20px;border-radius:50px;cursor:pointer;transition:all 0.2s;
+  }
+  .print-btn:hover { background:var(--warm-sky);color:var(--dark-blue); }
+  @media print { .doc-footer,.sidebar { display:none; } .page-body { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Syracuse University — Online Course Development</div>
+    <div class="header-title">LMS Course <span>Architecture</span></div>
+    <div class="header-sub">A sample week of LMS content demonstrating the standard structure, design requirements, and content organization applied consistently across every course in the program.</div>
+    <div class="header-chips">
+      <div class="chip hl">Week 1 Sample</div>
+      <div class="chip">Blackboard LMS</div>
+      <div class="chip">Student-Facing View</div>
+      <div class="chip">IPC 101</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section-label">Course Navigation</div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">🏠</div>
+      <div class="sidebar-item-text">Course Home</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📋</div>
+      <div class="sidebar-item-text">Syllabus</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📊</div>
+      <div class="sidebar-item-text">Grades</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">🔗</div>
+      <div class="sidebar-item-text">Course Links</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-gold">📹</div>
+      <div class="sidebar-item-text">Live Session Links &amp; Recordings</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-violet">📝</div>
+      <div class="sidebar-item-text">Assignments</div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Weekly Content</div>
+
+    <div class="sidebar-week-badge">
+      <div class="week-badge-label">Currently Viewing</div>
+      <div class="week-badge-title">Week 1 — Introduction to IPC</div>
+    </div>
+
+    <div class="sidebar-item active">
+      <div class="sidebar-icon icon-blue">✅</div>
+      <div class="sidebar-item-text">Week 1 To Do List</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📖</div>
+      <div class="sidebar-item-text">Week 1 Readings</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-gold">📹</div>
+      <div class="sidebar-item-text">Week 1 Live Session</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-violet">📝</div>
+      <div class="sidebar-item-text">Week 1 Assignments</div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Other Weeks</div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📅</div>
+      <div class="sidebar-item-text">Week 2</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📅</div>
+      <div class="sidebar-item-text">Week 3</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📅</div>
+      <div class="sidebar-item-text">Week 4 — 8</div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Course Resources</div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">📚</div>
+      <div class="sidebar-item-text">SU Library</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">✍️</div>
+      <div class="sidebar-item-text">Writing Center</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">♿</div>
+      <div class="sidebar-item-text">Disability Resources</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">🎓</div>
+      <div class="sidebar-item-text">Academic Support</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">🛠️</div>
+      <div class="sidebar-item-text">Technical Support</div>
+    </div>
+    <div class="sidebar-item">
+      <div class="sidebar-icon icon-blue">👩‍🏫</div>
+      <div class="sidebar-item-text">Contact Your Faculty</div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+
+    <!-- ID NOTE -->
+    <div class="id-note">
+      <div class="id-note-badge">ID Note</div>
+      <div class="id-note-text">Course navigation items (Grades, Links, etc.) follow the standardized LMS template applied consistently across all courses. Each week follows the same structural pattern — To Do List → Readings → Live Session → Assignments — ensuring students always know where to find content.</div>
+    </div>
+
+    <!-- SECTION 1: TO DO LIST -->
+    <div class="content-section">
+      <div class="section-label">
+        <div class="section-tag tag-blue">Step 1</div>
+        <div class="section-heading">Week 1 To Do List</div>
+      </div>
+
+      <div class="todo-note">Please note the links to and details of each item in this list are provided in the activities below.</div>
+
+      <table class="todo-table">
+        <thead>
+          <tr>
+            <th>Activity Type</th>
+            <th>Activity</th>
+            <th>Est. Time</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="activity-type-badge type-reading">📖 Reading</span></td>
+            <td><span class="activity-name"><strong>Read:</strong> Course Syllabus</span></td>
+            <td><span class="est-time">15 min</span></td>
+            <td><span class="due-date">Before Live Session</span></td>
+          </tr>
+          <tr>
+            <td><span class="activity-type-badge type-live">📹 Live Session</span></td>
+            <td><span class="activity-name"><strong>Attend:</strong> Live Session</span></td>
+            <td><span class="est-time">90 min</span></td>
+            <td><span class="due-date">Thursday 5:00–6:30pm EST</span></td>
+          </tr>
+          <tr>
+            <td><span class="activity-type-badge type-assignment">📝 Assignment</span></td>
+            <td><span class="activity-name"><strong>Submit:</strong> Week 1 Discussion Forum — Introduction to IPC and the Communication Process</span></td>
+            <td><span class="est-time">30 min</span></td>
+            <td><span class="due-date">Sunday 11:59pm Week 1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 2: READINGS -->
+    <div class="content-section">
+      <div class="section-label">
+        <div class="section-tag tag-blue">Step 2</div>
+        <div class="section-heading">Week 1 Readings</div>
+      </div>
+
+      <div class="id-note">
+        <div class="id-note-badge">ID Note</div>
+        <div class="id-note-text">All readings are provided in the citation format specified in the syllabus (APA, MLA, etc.) and linked directly — students are never required to search for materials.</div>
+      </div>
+
+      <div class="activity-card reading">
+        <div class="activity-card-header">
+          <span class="activity-type-badge type-reading">📖 Required Reading</span>
+        </div>
+        <div class="activity-card-body">
+          <strong style="color:var(--dark-blue);">Course Syllabus</strong> — Read the full syllabus before your first live session. The syllabus contains course policies, grading details, assignment descriptions, and the weekly schedule.
+          <br>
+          <a href="#" class="activity-link">📄 Open Syllabus</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: LIVE SESSION -->
+    <div class="content-section">
+      <div class="section-label">
+        <div class="section-tag tag-gold">Step 3</div>
+        <div class="section-heading">Week 1 Live Session</div>
+      </div>
+
+      <div class="activity-card live">
+        <div class="activity-card-header">
+          <span class="activity-type-badge type-live">📹 Live Session</span>
+          <span style="font-family:'Raleway',sans-serif;font-size:11px;font-weight:700;color:#7A2C10;">Thursday 5:00–6:30pm EST</span>
+        </div>
+        <div class="activity-card-body">
+          Join your live session using the link below. Live sessions are <strong>mandatory</strong> — see the syllabus for the excusable absence policy. Sessions are recorded and the recording will be posted within 24 hours.
+          <br>
+          <a href="#" class="activity-link">🔗 Join Live Session</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: ASSIGNMENTS -->
+    <div class="content-section">
+      <div class="section-label">
+        <div class="section-tag tag-violet">Step 4</div>
+        <div class="section-heading">Week 1 Assignments</div>
+      </div>
+
+      <div class="assignment-wrap">
+        <div class="assignment-header">
+          <div class="assignment-title">Discussion Forum — Introduction to IPC and the Communication Process</div>
+          <div class="assignment-due">Due: Sunday 11:59pm</div>
+        </div>
+        <div class="assignment-body">
+
+          <div class="assignment-intro">
+            This post will have <strong>three sections: Scenario, Analysis, and Advice.</strong>
+          </div>
+
+          <div class="assignment-instructions">
+            <div class="instruction-item">
+              <div class="instruction-num">1</div>
+              <div class="instruction-text"><strong>Scenario:</strong> Briefly describe an interpersonal exchange that was not effective. You don't have to quote the whole conversation, but you may include some dialogue.</div>
+            </div>
+            <div class="instruction-item">
+              <div class="instruction-num">2</div>
+              <div class="instruction-text"><strong>Analysis:</strong> Use terminology from the communication process — <em>source, receiver, message, encode, decode, channel, feedback, noise</em> — to analyze the exchange.</div>
+            </div>
+            <div class="instruction-item">
+              <div class="instruction-num">3</div>
+              <div class="instruction-text"><strong>Advice:</strong> Give an example of what might have been done differently.</div>
+            </div>
+          </div>
+
+          <div class="peer-note">
+            You are also required to provide analysis and/or advice on the posts of <strong>two classmates.</strong> If two people have already given analysis/advice on a post, choose another.
+          </div>
+
+          <!-- SAMPLE POST -->
+          <div class="sample-label">Sample Student Post (adapted from The Big Bang Theory)</div>
+
+          <div class="sample-post">
+            <div class="sample-post-header">
+              <div class="sample-avatar">S</div>
+              <div class="sample-post-meta">
+                <div class="sample-poster">Sample Student Post</div>
+                <div class="sample-post-type">Original Post</div>
+              </div>
+            </div>
+            <div class="sample-section-title">Scenario</div>
+            <div class="sample-text">I recently went to a wedding with my roommate's girlfriend. She didn't want to go alone, and since he wasn't able to go, he said he didn't mind if I went with her. When I got back, he asked me how it went and I told him I had a really good time. He started to get really upset, and said, "She's not <em>your</em> girlfriend!" I told him that I knew that, and wasn't trying to steal her away from him.</div>
+            <div class="sample-section-title">Analysis</div>
+            <div class="sample-text">As the sender of the message, I thought that my roommate — the receiver — would want to know his girlfriend had fun at the wedding. I thought my message would be what he wanted to hear. I wonder if, when he decoded the message, he was feeling guilty for not going, and so that was psychological noise that led him to misunderstand what I meant when I said we had a good time.</div>
+            <div class="sample-section-title">Advice</div>
+            <div class="sample-text">I think I could have been more sensitive to how he might be feeling, and said something to make him feel better — like, "We had a good time, but you didn't really miss anything."</div>
+
+            <!-- SAMPLE REPLY -->
+            <div class="sample-reply">
+              <div class="sample-post-header" style="margin-bottom:8px;">
+                <div class="sample-avatar violet">R</div>
+                <div class="sample-post-meta">
+                  <div class="sample-poster">Sample Reply Post</div>
+                  <div class="sample-post-type">Peer Analysis &amp; Advice</div>
+                </div>
+              </div>
+              <div class="sample-text">I agree that your roommate could have been feeling guilty, but I also think he might have been jealous. So you could have said, "Well I'm sure she would rather have gone with you, but we still had a good time."</div>
+            </div>
+          </div>
+
+          <a href="#" class="activity-link" style="margin-top:16px;display:inline-flex;background:var(--dark-violet);color:var(--white);border-color:var(--dark-violet);">💬 Join Discussion Forum</a>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /page-body -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-text">Syracuse University — Online Course Development &nbsp;·&nbsp; LMS Course Architecture &nbsp;·&nbsp; Week 1 Sample</div>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+</body>
+</html>
