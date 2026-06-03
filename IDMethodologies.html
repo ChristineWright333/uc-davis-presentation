@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instructional Design Frameworks — Christine Wright</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --seafoam: #D4F0ED;
+    --rich-black: #011313;
+    --dark-blue: #212152;
+    --dark-violet: #48316C;
+    --warm-sky: #96DEE5;
+    --light-violet: #F4AEE2;
+    --white: #FFFFFF;
+    --soft-gray: #E8EAEB;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Merriweather',Georgia,serif; background:var(--soft-gray); color:var(--rich-black); }
+
+  /* HEADER */
+  .doc-header {
+    background:var(--dark-blue);
+    padding:40px 56px 36px;
+    position:relative; overflow:hidden;
+  }
+  .doc-header::before {
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:320px; height:320px; border-radius:50%;
+    background:radial-gradient(circle,rgba(150,222,229,0.1) 0%,transparent 70%);
+  }
+  .doc-header::after {
+    content:''; position:absolute; bottom:-60px; left:220px;
+    width:240px; height:240px; border-radius:50%;
+    background:radial-gradient(circle,rgba(244,174,226,0.06) 0%,transparent 70%);
+  }
+  .header-inner { position:relative; z-index:1; }
+  .header-eyebrow {
+    font-family:'Raleway',sans-serif; font-size:11px; font-weight:800;
+    letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--warm-sky); opacity:0.75; margin-bottom:10px;
+  }
+  .header-title {
+    font-family:'Raleway',sans-serif; font-size:36px; font-weight:900;
+    color:var(--white); letter-spacing:-0.02em; line-height:1.1; margin-bottom:8px;
+  }
+  .header-title span { color:var(--warm-sky); }
+  .header-sub {
+    font-family:'Merriweather',serif; font-size:13px; font-weight:300;
+    color:var(--seafoam); opacity:0.85; line-height:1.7;
+    max-width:620px; margin-bottom:24px;
+  }
+  .header-chips { display:flex; gap:10px; flex-wrap:wrap; }
+  .chip {
+    font-family:'Raleway',sans-serif; font-size:10px; font-weight:800;
+    letter-spacing:0.15em; text-transform:uppercase;
+    padding:5px 14px; border-radius:50px;
+    background:rgba(255,255,255,0.08); color:var(--white);
+    border:1px solid rgba(255,255,255,0.12);
+  }
+  .chip.hl { background:var(--dark-violet); border-color:var(--light-violet); color:var(--light-violet); }
+
+  /* CONTENT */
+  .doc-content { padding:44px 56px 80px; max-width:1100px; margin:0 auto; }
+
+  /* INTRO CARD */
+  .intro-card {
+    background:var(--white); border-radius:14px; padding:28px 32px;
+    margin-bottom:36px; border:1px solid rgba(33,33,82,0.08);
+    border-left:5px solid var(--dark-blue);
+    box-shadow:0 2px 16px rgba(1,19,19,0.06);
+  }
+  .intro-label {
+    font-family:'Raleway',sans-serif; font-size:10px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.15em;
+    color:var(--dark-blue); margin-bottom:12px;
+  }
+  .intro-text {
+    font-family:'Merriweather',serif; font-size:13.5px;
+    color:var(--rich-black); line-height:1.9;
+  }
+  .intro-text strong { color:var(--dark-blue); font-weight:700; }
+
+  /* MODELS GRID */
+  .models-grid {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:16px; margin-bottom:32px;
+  }
+
+  .model-card {
+    background:var(--white); border-radius:14px;
+    padding:24px 26px; border:1px solid rgba(33,33,82,0.08);
+    box-shadow:0 2px 12px rgba(1,19,19,0.05);
+    position:relative; overflow:hidden;
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  .model-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(1,19,19,0.1); }
+  .model-card::before {
+    content:''; position:absolute; top:0; left:0;
+    width:4px; height:100%;
+  }
+  .model-card.blue::before { background:var(--dark-blue); }
+  .model-card.violet::before { background:var(--dark-violet); }
+  .model-card.teal::before { background:#0A3642; }
+  .model-card.sky::before { background:var(--warm-sky); }
+
+  .model-num {
+    font-family:'Raleway',sans-serif; font-size:11px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.15em;
+    padding:3px 10px; border-radius:50px;
+    display:inline-block; margin-bottom:14px;
+  }
+  .num-blue { background:rgba(33,33,82,0.08); color:var(--dark-blue); }
+  .num-violet { background:rgba(72,49,108,0.08); color:var(--dark-violet); }
+  .num-teal { background:rgba(10,54,66,0.08); color:#0A3642; }
+  .num-sky { background:rgba(150,222,229,0.2); color:#0A3642; }
+
+  .model-name {
+    font-family:'Raleway',sans-serif; font-size:18px; font-weight:900;
+    color:var(--dark-blue); margin-bottom:4px; line-height:1.2;
+  }
+  .model-full {
+    font-family:'Merriweather',serif; font-size:11px; font-style:italic;
+    color:var(--rich-black); opacity:0.55; margin-bottom:14px;
+  }
+  .model-divider {
+    height:1px; background:rgba(33,33,82,0.07); margin-bottom:14px;
+  }
+  .model-desc {
+    font-family:'Merriweather',serif; font-size:12.5px;
+    color:var(--rich-black); line-height:1.85;
+  }
+  .model-desc strong { color:var(--dark-blue); font-weight:700; }
+
+  /* BLEND CARD */
+  .blend-card {
+    background:var(--dark-violet); border-radius:14px;
+    padding:32px 36px; margin-bottom:16px;
+    position:relative; overflow:hidden;
+  }
+  .blend-card::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:240px; height:240px; border-radius:50%;
+    background:radial-gradient(circle,rgba(244,174,226,0.1) 0%,transparent 70%);
+  }
+  .blend-inner { position:relative; z-index:1; }
+  .blend-label {
+    font-family:'Raleway',sans-serif; font-size:10px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.2em;
+    color:var(--light-violet); opacity:0.8; margin-bottom:14px;
+  }
+  .blend-text {
+    font-family:'Merriweather',serif; font-size:14px;
+    color:var(--white); line-height:1.9;
+  }
+  .blend-text strong { color:var(--light-violet); font-weight:700; }
+  .blend-tools {
+    margin-top:20px; padding-top:18px;
+    border-top:1px solid rgba(244,174,226,0.2);
+    font-family:'Merriweather',serif; font-size:13px;
+    color:var(--seafoam); line-height:1.75; opacity:0.9;
+  }
+  .blend-tools strong { color:var(--warm-sky); font-weight:700; }
+  .model-graphic { width:100%; border-radius:8px; overflow:hidden; margin-top:4px; }
+  .model-graphic svg { display:block; width:100%; }
+
+  /* FOOTER */
+  .doc-footer {
+    background:var(--dark-blue); padding:18px 56px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .footer-text {
+    font-family:'Raleway',sans-serif; font-size:11px; font-weight:700;
+    color:var(--warm-sky); opacity:0.65; letter-spacing:0.08em;
+  }
+  .back-btn {
+    font-family:'Raleway',sans-serif; font-size:12px; font-weight:700;
+    color:var(--white); background:var(--dark-violet); border:none;
+    padding:8px 20px; border-radius:50px; cursor:pointer;
+    text-decoration:none; transition:all 0.2s;
+  }
+  .back-btn:hover { background:var(--warm-sky); color:var(--dark-blue); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Christine Wright — Instructional Design Practice</div>
+    <div class="header-title">ID <span>Frameworks</span></div>
+    <div class="header-sub">The instructional design frameworks and methodologies that inform my practice — applied through a person-centric lens with a focus on adaptability, learner agency, and evidence-based design.</div>
+    <div class="header-chips">
+      <div class="chip hl">Learning Theory</div>
+      <div class="chip">8 Frameworks</div>
+      <div class="chip">Person-Centric Design</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="doc-content">
+
+  <!-- INTRO -->
+  <div class="intro-card">
+    <div class="intro-label">My Approach</div>
+    <div class="intro-text">I often draw from several Instructional Design frameworks. The models I use most include the following — each chosen for its strengths depending on the learner, context, and organizational environment. <strong>Sound learning theory is always the foundation of my design process,</strong> informing every decision from objective-writing to assessment design to multimedia choices.</div>
+  </div>
+
+  <!-- MODELS GRID -->
+  <div class="models-grid">
+    <div class="model-card blue">
+      <div class="model-num num-blue">01</div>
+      <div class="model-name">ADDIE</div>
+      <div class="model-full">Analysis, Design, Development, Implementation, Evaluation</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="addie_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#0A3642" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="180" rx="10" fill="url(#addie_bg)"/>
+  <text x="210" y="30" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="13" fill="#FFFFFF" letter-spacing="2">ADDIE MODEL</text>
+  <rect x="14" y="52" width="68" height="52" rx="7" fill="#FFFFFF" fill-opacity="0.10" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="94" y="52" width="68" height="52" rx="7" fill="#FFFFFF" fill-opacity="0.13" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="174" y="52" width="68" height="52" rx="7" fill="#FFFFFF" fill-opacity="0.16" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="254" y="52" width="68" height="52" rx="7" fill="#FFFFFF" fill-opacity="0.19" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <rect x="334" y="52" width="68" height="52" rx="7" fill="#FFFFFF" fill-opacity="0.22" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <path d="M86,78 L94,78" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.7"/>
+  <polygon points="92,74 98,78 92,82" fill="#96DEE5" fill-opacity="0.7"/>
+  <path d="M166,78 L174,78" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.7"/>
+  <polygon points="172,74 178,78 172,82" fill="#96DEE5" fill-opacity="0.7"/>
+  <path d="M246,78 L254,78" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.7"/>
+  <polygon points="252,74 258,78 252,82" fill="#96DEE5" fill-opacity="0.7"/>
+  <path d="M326,78 L334,78" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.7"/>
+  <polygon points="332,74 338,78 332,82" fill="#96DEE5" fill-opacity="0.7"/>
+  <text x="48" y="74" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#96DEE5">A</text>
+  <text x="48" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.8">Analysis</text>
+  <text x="128" y="74" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#F4AEE2">D</text>
+  <text x="128" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.8">Design</text>
+  <text x="208" y="74" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#96DEE5">D</text>
+  <text x="208" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.8">Develop</text>
+  <text x="288" y="74" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#F4AEE2">I</text>
+  <text x="288" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.8">Implement</text>
+  <text x="368" y="74" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#96DEE5">E</text>
+  <text x="368" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.8">Evaluate</text>
+  <path d="M382,104 Q210,148 38,104" fill="none" stroke="#F4AEE2" stroke-width="1.2" stroke-dasharray="4,3" stroke-opacity="0.6"/>
+  <polygon points="38,100 32,104 38,108" fill="#F4AEE2" fill-opacity="0.6"/>
+  <text x="210" y="158" text-anchor="middle" font-family="Raleway,Arial" font-size="8" font-weight="700" fill="#F4AEE2" fill-opacity="0.7" letter-spacing="1">ITERATIVE FEEDBACK LOOP</text>
+</svg></div>
+    </div>
+
+    <div class="model-card violet">
+      <div class="model-num num-violet">02</div>
+      <div class="model-name">SAM</div>
+      <div class="model-full">Successive Approximation Method</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 500 215" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sg_bg4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+    <linearGradient id="sg_prep" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#48316C" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#48316C" stop-opacity="0.35"/>
+    </linearGradient>
+    <linearGradient id="sg_design" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#48316C" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#48316C" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="sg_dev" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0A3642" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#212152" stop-opacity="0.75"/>
+    </linearGradient>
+    <marker id="arL2" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L9,3.5 Z" fill="#F4AEE2" fill-opacity="0.95"/>
+    </marker>
+    <marker id="arR2" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto">
+      <path d="M0,0 L0,7 L9,3.5 Z" fill="#96DEE5" fill-opacity="0.95"/>
+    </marker>
+    <marker id="arW2" markerWidth="9" markerHeight="9" refX="2" refY="3.5" orient="auto">
+      <path d="M9,0 L9,7 L0,3.5 Z" fill="#FFFFFF" fill-opacity="0.9"/>
+    </marker>
+  </defs>
+
+  <rect width="500" height="215" rx="10" fill="url(#sg_bg4)"/>
+
+  <!-- Title -->
+  <text x="250" y="20" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="14" fill="#FFFFFF" letter-spacing="3">SAM</text>
+  <text x="250" y="33" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#96DEE5" fill-opacity="0.8">The Successive Approximation Model</text>
+
+  <!-- ── THREE SEPARATE PHASE BOXES ── -->
+  <!-- Box 1: Preparation Phase (Background only) -->
+  <rect x="8" y="40" width="75" height="115" rx="6" fill="url(#sg_prep)" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.4"/>
+
+  <!-- Box 2: Iterative Design Phase -->
+  <rect x="87" y="40" width="160" height="115" rx="6" fill="url(#sg_design)" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.25"/>
+
+  <!-- Box 3: Iterative Development Phase -->
+  <rect x="252" y="40" width="232" height="115" rx="6" fill="url(#sg_dev)" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.3"/>
+
+  <!-- Rollout tab -->
+  <rect x="482" y="40" width="14" height="115" rx="3" fill="#96DEE5" fill-opacity="0.15"/>
+  <text x="489" y="97" text-anchor="middle" font-family="Raleway,Arial" font-weight="800" font-size="6.5" fill="#96DEE5" fill-opacity="0.8" transform="rotate(90,489,97)" letter-spacing="2">ROLLOUT</text>
+
+  <!-- ── BACKGROUND node (in its own box, no arrow out) ── -->
+  <ellipse cx="46" cy="97" rx="28" ry="17" fill="#48316C" fill-opacity="0.9" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.9"/>
+  <text x="46" y="94" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7" fill="#F4AEE2">BACK-</text>
+  <text x="46" y="104" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7" fill="#F4AEE2">GROUND</text>
+
+  <!-- ── LEFT LOOP: oval ring in Iterative Design box ── -->
+  <!-- Oval centered at cx=168, cy=90 -->
+  <path d="M 120,82 A 52,38 0 0,1 216,82"
+    fill="none" stroke="#F4AEE2" stroke-width="2" stroke-opacity="0.7" marker-end="url(#arL2)"/>
+  <path d="M 216,98 A 52,38 0 0,1 120,98"
+    fill="none" stroke="#F4AEE2" stroke-width="2" stroke-opacity="0.7" marker-end="url(#arL2)"/>
+
+  <!-- PROTOTYPE — top of left oval -->
+  <ellipse cx="168" cy="54" rx="28" ry="14" fill="#48316C" fill-opacity="0.95" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="168" y="57" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#F4AEE2">PROTOTYPE</text>
+
+  <!-- DESIGN — bottom-left of left oval -->
+  <ellipse cx="128" cy="118" rx="26" ry="14" fill="#48316C" fill-opacity="0.95" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="128" y="121" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#F4AEE2">DESIGN</text>
+
+  <!-- REVIEW — bottom-right of left oval -->
+  <ellipse cx="208" cy="118" rx="26" ry="14" fill="#48316C" fill-opacity="0.95" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="208" y="121" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#F4AEE2">REVIEW</text>
+
+  <!-- ── RIGHT LOOP: oval ring in Iterative Development box ── -->
+  <!-- Oval centered at cx=368, cy=90 -->
+  <path d="M 320,82 A 52,38 0 0,1 416,82"
+    fill="none" stroke="#96DEE5" stroke-width="2" stroke-opacity="0.7" marker-end="url(#arR2)"/>
+  <path d="M 416,98 A 52,38 0 0,1 320,98"
+    fill="none" stroke="#96DEE5" stroke-width="2" stroke-opacity="0.7" marker-end="url(#arR2)"/>
+
+  <!-- IMPLEMENT — top of right oval -->
+  <ellipse cx="368" cy="54" rx="30" ry="14" fill="#0A3642" fill-opacity="0.95" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="368" y="57" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#96DEE5">IMPLEMENT</text>
+
+  <!-- DEVELOP — bottom-left of right oval -->
+  <ellipse cx="328" cy="118" rx="28" ry="14" fill="#0A3642" fill-opacity="0.95" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="328" y="121" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#96DEE5">DEVELOP</text>
+
+  <!-- EVALUATE — bottom-right of right oval -->
+  <ellipse cx="408" cy="118" rx="28" ry="14" fill="#0A3642" fill-opacity="0.95" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.95"/>
+  <text x="408" y="121" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="7.5" fill="#96DEE5">EVALUATE</text>
+
+  <!-- ── PHASE-LINKING ARROW: centered on phase boundary at x=252 ── -->
+  <!-- Shaft: x=252 to x=280 (right half in Dev box) -->
+  <rect x="252" y="143" width="28" height="3" rx="1" fill="#96DEE5" fill-opacity="0.9"/>
+  <!-- Arrowhead tip points left into Design box -->
+  <polygon points="252,138 252,150 244,144" fill="#96DEE5" fill-opacity="0.9"/>
+
+  <!-- ── BOTTOM LABELS ── -->
+  <line x1="8" y1="158" x2="482" y2="158" stroke="#FFFFFF" stroke-width="0.3" stroke-opacity="0.1"/>
+
+  <text x="46"  y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#F4AEE2" fill-opacity="0.7">Information</text>
+  <text x="46"  y="178" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#F4AEE2" fill-opacity="0.7">Gathering</text>
+  <polygon points="74,167 81,171 74,175" fill="#F4AEE2" fill-opacity="0.3"/>
+  <text x="106" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#F4AEE2" fill-opacity="0.7">SAVVY Start</text>
+  <polygon points="128,167 135,171 128,175" fill="#F4AEE2" fill-opacity="0.3"/>
+  <text x="162" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#F4AEE2" fill-opacity="0.7">Project Planning</text>
+  <polygon points="192,167 199,171 192,175" fill="#F4AEE2" fill-opacity="0.3"/>
+  <text x="228" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#F4AEE2" fill-opacity="0.7">Additional Design</text>
+  <polygon points="254,167 261,171 254,175" fill="#96DEE5" fill-opacity="0.3"/>
+  <text x="294" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#96DEE5" fill-opacity="0.7">Design Proof</text>
+  <polygon points="326,167 333,171 326,175" fill="#96DEE5" fill-opacity="0.3"/>
+  <text x="360" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#96DEE5" fill-opacity="0.7">Alpha</text>
+  <polygon points="384,167 391,171 384,175" fill="#96DEE5" fill-opacity="0.3"/>
+  <text x="416" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#96DEE5" fill-opacity="0.7">Beta</text>
+  <polygon points="440,167 447,171 440,175" fill="#96DEE5" fill-opacity="0.3"/>
+  <text x="464" y="170" text-anchor="middle" font-family="Raleway,Arial" font-size="6" fill="#96DEE5" fill-opacity="0.7">Gold</text>
+
+  <!-- Phase labels -->
+  <text x="46"  y="192" text-anchor="middle" font-family="Raleway,Arial" font-weight="800" font-size="6" fill="#F4AEE2" fill-opacity="0.8">Preparation</text>
+  <text x="46"  y="200" text-anchor="middle" font-family="Raleway,Arial" font-weight="800" font-size="6" fill="#F4AEE2" fill-opacity="0.8">Phase</text>
+  <text x="168" y="192" text-anchor="middle" font-family="Raleway,Arial" font-weight="800" font-size="6" fill="#F4AEE2" fill-opacity="0.8">Iterative Design Phase</text>
+  <text x="368" y="192" text-anchor="middle" font-family="Raleway,Arial" font-weight="800" font-size="6" fill="#96DEE5" fill-opacity="0.8">Iterative Development Phase</text>
+</svg></div>
+    </div>
+
+    <div class="model-card teal">
+      <div class="model-num num-blue">03</div>
+      <div class="model-name">Andragogy</div>
+      <div class="model-full">Principles of Adult Learning (Malcolm Knowles)</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ag_bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="200" rx="10" fill="url(#ag_bg3)"/>
+  <text x="210" y="18" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="13" fill="#FFFFFF" letter-spacing="1.5">ANDRAGOGY</text>
+  <text x="210" y="30" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#96DEE5" fill-opacity="0.8">Adult Learning Process — Malcolm Knowles</text>
+
+  <!-- Outer ring -->
+  <circle cx="148" cy="107" r="50" fill="none" stroke="#96DEE5" stroke-width="1.2" stroke-opacity="0.35" stroke-dasharray="3,3"/>
+
+  <!-- Spokes -->
+  <line x1="148" y1="107" x2="148.0" y2="57.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="148" y1="107" x2="191.3" y2="82.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="148" y1="107" x2="191.3" y2="132.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="148" y1="107" x2="148.0" y2="157.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="148" y1="107" x2="104.7" y2="132.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <line x1="148" y1="107" x2="104.7" y2="82.0" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+
+  <!-- Hex connecting lines -->
+  <line x1="148.0" y1="57.0" x2="191.3" y2="82.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="191.3" y1="82.0" x2="191.3" y2="132.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="191.3" y1="132.0" x2="148.0" y2="157.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="148.0" y1="157.0" x2="104.7" y2="132.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="104.7" y1="132.0" x2="104.7" y2="82.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+  <line x1="104.7" y1="82.0" x2="148.0" y2="57.0" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- Center hub -->
+  <circle cx="148" cy="107" r="10" fill="#48316C" fill-opacity="0.9" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.9"/>
+  <circle cx="148" cy="101" r="5" fill="#F4AEE2" fill-opacity="0.85"/>
+  <path d="M140,109 Q148,103 156,109" fill="#48316C" fill-opacity="0.9" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.9"/>
+  <rect x="143" y="107" width="10" height="10" rx="2" fill="#48316C" fill-opacity="0.9" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.9"/>
+
+  <!-- Outer nodes -->
+  <circle cx="148.0" cy="57.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="148.0" cy="53.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M140.0,59.0 Q148.0,53.0 156.0,59.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="191.3" cy="82.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="191.3" cy="78.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M183.3,84.0 Q191.3,78.0 199.3,84.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="191.3" cy="132.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="191.3" cy="128.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M183.3,134.0 Q191.3,128.0 199.3,134.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="148.0" cy="157.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="148.0" cy="153.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M140.0,159.0 Q148.0,153.0 156.0,159.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="104.7" cy="132.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="104.7" cy="128.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M96.7,134.0 Q104.7,128.0 112.7,134.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+  <circle cx="104.7" cy="82.0" r="8" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1.3" stroke-opacity="0.85"/>
+  <circle cx="104.7" cy="78.0" r="4" fill="#96DEE5" fill-opacity="0.8"/>
+  <path d="M96.7,84.0 Q104.7,78.0 112.7,84.0" fill="#212152" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.8"/>
+
+  <!-- Divider -->
+  <line x1="220" y1="40" x2="220" y2="180" stroke="#96DEE5" stroke-width="0.5" stroke-opacity="0.2" stroke-dasharray="4,4"/>
+
+  <!-- Knowles 5 Principles -->
+  <text x="232" y="52" font-family="Raleway,Arial" font-weight="900" font-size="9" fill="#F4AEE2">Knowles&#39; 5 Principles</text>
+  <line x1="232" y1="57" x2="408" y2="57" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.3"/>
+  <circle cx="238" cy="74" r="3" fill="#F4AEE2" fill-opacity="0.8"/>
+  <text x="248" y="77" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF">Self-Directed</text>
+  <circle cx="238" cy="96" r="3" fill="#96DEE5" fill-opacity="0.8"/>
+  <text x="248" y="99" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF">Experienced</text>
+  <circle cx="238" cy="118" r="3" fill="#F4AEE2" fill-opacity="0.8"/>
+  <text x="248" y="121" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF">Ready to Learn</text>
+  <circle cx="238" cy="140" r="3" fill="#96DEE5" fill-opacity="0.8"/>
+  <text x="248" y="143" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF">Problem-Centered</text>
+  <circle cx="238" cy="162" r="3" fill="#F4AEE2" fill-opacity="0.8"/>
+  <text x="248" y="165" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF">Intrinsically Motivated</text>
+</svg></div>
+    </div>
+
+    <div class="model-card teal">
+      <div class="model-num num-violet">04</div>
+      <div class="model-name">Backwards Design</div>
+      <div class="model-full">Understanding by Design (Wiggins &amp; McTighe)</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bd_bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="200" rx="10" fill="url(#bd_bg5)"/>
+
+  <!-- Title -->
+  <text x="210" y="16" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="12" fill="#FFFFFF" letter-spacing="1.5">BACKWARDS DESIGN</text>
+  <text x="210" y="27" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7.5" fill="#96DEE5" fill-opacity="0.8">Wiggins &amp; McTighe</text>
+
+  <!-- ── TIER 1: Identify Learning Goals — top left ── -->
+  <rect x="14" y="34" width="120" height="58" rx="7"
+    fill="#48316C" fill-opacity="0.85" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="74" y="54" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Identify</text>
+  <text x="74" y="66" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Learning Goals</text>
+  <!-- Sub-label box -->
+  <rect x="22" y="80" width="90" height="26" rx="5"
+    fill="#212152" fill-opacity="0.95" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="67" y="90" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#F4AEE2" fill-opacity="0.9">Overall course objectives</text>
+  <text x="67" y="101" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#F4AEE2" fill-opacity="0.9">Module (unit) objectives</text>
+
+  <!-- ── TIER 2: Design Assessments — middle center ── -->
+  <rect x="150" y="78" width="120" height="58" rx="7"
+    fill="#0A3642" fill-opacity="0.9" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="210" y="101" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Design</text>
+  <text x="210" y="113" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Assessments</text>
+  <!-- Sub-label box -->
+  <rect x="158" y="124" width="90" height="26" rx="5"
+    fill="#212152" fill-opacity="0.95" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="203" y="134" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#96DEE5" fill-opacity="0.9">Exams</text>
+  <text x="203" y="145" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#96DEE5" fill-opacity="0.9">Writing assignments, etc.</text>
+
+  <!-- ── TIER 3: Develop Learning Activities — bottom right ── -->
+  <rect x="286" y="122" width="120" height="58" rx="7"
+    fill="#212152" fill-opacity="0.95" stroke="#D4F0ED" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="346" y="142" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Develop Learning</text>
+  <text x="346" y="154" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8.5" fill="#FFFFFF">Activities</text>
+  <!-- Sub-label box -->
+  <rect x="294" y="168" width="104" height="26" rx="5"
+    fill="#0A3642" fill-opacity="0.95" stroke="#D4F0ED" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="346" y="178" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#D4F0ED" fill-opacity="0.9">Lecture · Presentations/videos</text>
+  <text x="346" y="189" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#D4F0ED" fill-opacity="0.9">Self-check quizzes</text>
+  <!-- Arrow 1→2: bold curved arrow sweeping down-right -->
+  <path d="M 125,70 C 138,70 148,80 150,90"
+    fill="none" stroke="#F4AEE2" stroke-width="1.5" stroke-opacity="0.8" stroke-linecap="round"/>
+  <polygon points="144,90 150,100 156,88" fill="#F4AEE2" fill-opacity="0.8"/>
+
+  <!-- Arrow 2→3: bold curved arrow sweeping down-right -->
+  <path d="M 261,114 C 274,114 284,124 286,134"
+    fill="none" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.8" stroke-linecap="round"/>
+  <polygon points="280,134 286,144 292,132" fill="#96DEE5" fill-opacity="0.8"/>
+</svg></div>
+    </div>
+
+    <div class="model-card blue">
+      <div class="model-num num-blue">05</div>
+      <div class="model-name">Bloom's Taxonomy</div>
+      <div class="model-full">A Framework for Cognitive Learning Objectives</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bl_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#48316C"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="180" rx="10" fill="url(#bl_bg)"/>
+
+  <!-- Pyramid levels (6) bottom to top, left-center aligned -->
+  <!-- Each level: trapezoid using polygon -->
+  <!-- Level 1 (bottom) Remember -->
+  <polygon points="55,158 245,158 230,134 70,134" fill="#96DEE5" fill-opacity="0.25" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.5"/>
+  <text x="150" y="150" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF" fill-opacity="0.9">Remember</text>
+
+  <!-- Level 2 Understand -->
+  <polygon points="70,134 230,134 215,110 85,110" fill="#F4AEE2" fill-opacity="0.18" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.5"/>
+  <text x="150" y="126" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF" fill-opacity="0.9">Understand</text>
+
+  <!-- Level 3 Apply -->
+  <polygon points="85,110 215,110 200,86 100,86" fill="#96DEE5" fill-opacity="0.2" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.5"/>
+  <text x="150" y="102" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF" fill-opacity="0.9">Apply</text>
+
+  <!-- Level 4 Analyze -->
+  <polygon points="100,86 200,86 185,62 115,62" fill="#F4AEE2" fill-opacity="0.22" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.6"/>
+  <text x="150" y="78" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF" fill-opacity="0.9">Analyze</text>
+
+  <!-- Level 5 Evaluate -->
+  <polygon points="115,62 185,62 170,38 130,38" fill="#96DEE5" fill-opacity="0.3" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.7"/>
+  <text x="150" y="54" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="9" fill="#FFFFFF" fill-opacity="0.9">Evaluate</text>
+
+  <!-- Level 6 Create (top) -->
+  <polygon points="130,38 170,38 150,18" fill="#F4AEE2" fill-opacity="0.55" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.9"/>
+  <text x="150" y="34" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#FFFFFF">Create</text>
+
+  <!-- Arrow up left side -->
+  <line x1="42" y1="155" x2="42" y2="28" stroke="#96DEE5" stroke-width="1.2" stroke-opacity="0.5" stroke-dasharray="3,3"/>
+  <polygon points="38,30 42,20 46,30" fill="#96DEE5" fill-opacity="0.5"/>
+  <text x="36" y="95" text-anchor="middle" font-family="Raleway,Arial" font-size="8" fill="#96DEE5" fill-opacity="0.7" transform="rotate(-90,36,95)">HIGHER ORDER THINKING</text>
+
+  <!-- Right side labels -->
+  <text x="265" y="30" font-family="Raleway,Arial" font-weight="900" font-size="12" fill="#FFFFFF" letter-spacing="1">BLOOM'S</text>
+  <text x="265" y="46" font-family="Raleway,Arial" font-weight="900" font-size="12" fill="#96DEE5" letter-spacing="1">TAXONOMY</text>
+  <line x1="265" y1="54" x2="390" y2="54" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.3"/>
+  <text x="265" y="72" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.65">Revised Anderson &amp;</text>
+  <text x="265" y="84" font-family="Merriweather,Georgia" font-size="8" fill="#FFFFFF" fill-opacity="0.65">Krathwohl, 2001</text>
+  <text x="265" y="108" font-family="Merriweather,Georgia" font-size="8" fill="#F4AEE2" fill-opacity="0.8">Lower order: recall &amp;</text>
+  <text x="265" y="120" font-family="Merriweather,Georgia" font-size="8" fill="#F4AEE2" fill-opacity="0.8">comprehension</text>
+  <text x="265" y="138" font-family="Merriweather,Georgia" font-size="8" fill="#96DEE5" fill-opacity="0.8">Higher order: analysis,</text>
+  <text x="265" y="150" font-family="Merriweather,Georgia" font-size="8" fill="#96DEE5" fill-opacity="0.8">evaluation &amp; creation</text>
+</svg></div>
+    </div>
+
+    <div class="model-card sky">
+      <div class="model-num num-violet">06</div>
+      <div class="model-name">Universal Design for Learning</div>
+      <div class="model-full">UDL — CAST Framework</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="udl_bg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="200" rx="10" fill="url(#udl_bg6)"/>
+
+  <text x="210" y="18" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="13" fill="#FFFFFF" letter-spacing="1.5">UNIVERSAL DESIGN FOR LEARNING</text>
+  <text x="210" y="30" text-anchor="middle" font-family="Merriweather,Georgia" font-size="8" fill="#96DEE5" fill-opacity="0.8">CAST Framework — Three Brain Networks</text>
+
+  <!-- CIRCLE 1: Affective / Limbic System -->
+  <circle cx="76" cy="86" r="46" fill="#48316C" fill-opacity="0.3" stroke="#F4AEE2" stroke-width="3" stroke-opacity="0.8"/>
+  <circle cx="76" cy="86" r="38" fill="#48316C" fill-opacity="0.25" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="76" y="81" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#F4AEE2">Limbic</text>
+  <text x="76" y="96" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#F4AEE2">System</text>
+
+  <!-- CIRCLE 2: Recognition / Occipital-Temporal -->
+  <circle cx="210" cy="86" r="46" fill="#0A3642" fill-opacity="0.4" stroke="#96DEE5" stroke-width="3" stroke-opacity="0.8"/>
+  <circle cx="210" cy="86" r="38" fill="#0A3642" fill-opacity="0.3" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="210" y="76" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#96DEE5">Occipital/</text>
+  <text x="210" y="90" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#96DEE5">Temporal</text>
+  <text x="210" y="104" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#96DEE5">Lobe</text>
+
+  <!-- CIRCLE 3: Strategic / Frontal Lobe -->
+  <circle cx="344" cy="86" r="46" fill="#212152" fill-opacity="0.4" stroke="#D4F0ED" stroke-width="3" stroke-opacity="0.8"/>
+  <circle cx="344" cy="86" r="38" fill="#212152" fill-opacity="0.3" stroke="#D4F0ED" stroke-width="1" stroke-opacity="0.3"/>
+  <text x="344" y="81" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#D4F0ED">Frontal</text>
+  <text x="344" y="96" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="11" fill="#D4F0ED">Lobe</text>
+
+  <!-- Label boxes -->
+  <rect x="28"  y="140" width="96" height="52" rx="6" fill="#48316C" fill-opacity="0.92" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="76"  y="155" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="6.5" fill="#F4AEE2" fill-opacity="0.85" letter-spacing="0.5">AFFECTIVE NETWORK</text>
+  <text x="76"  y="169" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">THE WHY</text>
+  <text x="76"  y="183" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">OF LEARNING</text>
+
+  <rect x="162" y="140" width="96" height="52" rx="6" fill="#0A3642" fill-opacity="0.95" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="210" y="155" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="6.5" fill="#96DEE5" fill-opacity="0.85" letter-spacing="0.5">RECOGNITION NETWORK</text>
+  <text x="210" y="169" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">THE WHAT</text>
+  <text x="210" y="183" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">OF LEARNING</text>
+
+  <rect x="296" y="140" width="96" height="52" rx="6" fill="#212152" fill-opacity="0.95" stroke="#D4F0ED" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="344" y="155" text-anchor="middle" font-family="Raleway,Arial" font-weight="700" font-size="6.5" fill="#D4F0ED" fill-opacity="0.85" letter-spacing="0.5">STRATEGIC NETWORK</text>
+  <text x="344" y="169" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">THE HOW</text>
+  <text x="344" y="183" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="10" fill="#FFFFFF">OF LEARNING</text>
+</svg></div>
+    </div>
+
+    <div class="model-card blue">
+      <div class="model-num num-blue">07</div>
+      <div class="model-name">Maslow&#39;s Hierarchy</div>
+      <div class="model-full">Hierarchy of Needs — Abraham Maslow, 1943</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 185" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="ml_bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="185" rx="10" fill="url(#ml_bg4)"/>
+
+  <!-- Title -->
+  <text x="210" y="16" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="12" fill="#FFFFFF" letter-spacing="1">MASLOW&#39;S HIERARCHY OF NEEDS</text>
+  <text x="210" y="27" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7.5" fill="#96DEE5" fill-opacity="0.8">Abraham Maslow, 1943</text>
+
+  <!-- PYRAMID: apex at (290,33), base from x=194 to x=386, y=163 -->
+  <!-- 5 levels, each 26px tall -->
+  <!-- At y=33 (apex): width=0, cx=290 -->
+  <!-- At y=59: half-width = (59-33)/(163-33)*96 = 26/130*96 = 19.2 → x=270.8 to 309.2 -->
+  <!-- At y=85: half-width = 52/130*96 = 38.4 → x=251.6 to 328.4 -->
+  <!-- At y=111: half-width = 78/130*96 = 57.6 → x=232.4 to 347.6 -->
+  <!-- At y=137: half-width = 104/130*96 = 76.8 → x=213.2 to 366.8 -->
+  <!-- At y=163: half-width = 96 → x=194 to 386 -->
+
+  <!-- Full pyramid outline -->
+  <polygon points="290,33 386,163 194,163"
+    fill="none" stroke="#96DEE5" stroke-width="1.5" stroke-opacity="0.6"/>
+
+  <!-- Level dividers — horizontal lines across pyramid at each tier -->
+  <line x1="271" y1="59"  x2="309" y2="59"  stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.5"/>
+  <line x1="252" y1="85"  x2="328" y2="85"  stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.5"/>
+  <line x1="233" y1="111" x2="347" y2="111" stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.5"/>
+  <line x1="214" y1="137" x2="366" y2="137" stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.5"/>
+
+  <!-- Pyramid fill tiers (subtle) -->
+  <polygon points="290,33 309,59 271,59"           fill="#D4F0ED" fill-opacity="0.15"/>
+  <polygon points="271,59 309,59 328,85 252,85"    fill="#48316C" fill-opacity="0.35"/>
+  <polygon points="252,85 328,85 347,111 233,111"  fill="#0A3642" fill-opacity="0.4"/>
+  <polygon points="233,111 347,111 366,137 214,137" fill="#48316C" fill-opacity="0.25"/>
+  <polygon points="214,137 366,137 386,163 194,163" fill="#212152" fill-opacity="0.5"/>
+
+  <!-- LEFT SIDE CALLOUT LABELS with connector lines -->
+  <!-- Each label connects to the center of its tier on the left pyramid edge -->
+  <!-- Tier centers y: 46, 72, 98, 124, 150 -->
+  <!-- Left pyramid edge x at each y:
+       y=46: 290 - (46-33)/130*96 = 290-9.6 = 280.4 → use ~280
+       y=72: 290 - (72-33)/130*96 = 290-28.8 = 261.2 → ~261
+       y=98: 290 - (98-33)/130*96 = 290-48 = 242 → ~242
+       y=124: 290 - (124-33)/130*96 = 290-67.2 = 222.8 → ~223
+       y=150: 290 - (150-33)/130*96 = 290-86.4 = 203.6 → ~204 -->
+
+  <!-- 5: Self-Actualization -->
+  <line x1="148" y1="46" x2="276" y2="46" stroke="#D4F0ED" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,2"/>
+  <text x="144" y="49" text-anchor="end" font-family="Raleway,Arial" font-weight="700" font-size="8.5" fill="#D4F0ED">Self-Actualization</text>
+
+  <!-- 4: Esteem -->
+  <line x1="148" y1="72" x2="257" y2="72" stroke="#F4AEE2" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,2"/>
+  <text x="144" y="75" text-anchor="end" font-family="Raleway,Arial" font-weight="700" font-size="8.5" fill="#F4AEE2">Esteem Needs</text>
+
+  <!-- 3: Social -->
+  <line x1="148" y1="98" x2="238" y2="98" stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,2"/>
+  <text x="144" y="101" text-anchor="end" font-family="Raleway,Arial" font-weight="700" font-size="8.5" fill="#96DEE5">Social Needs</text>
+
+  <!-- 2: Security -->
+  <line x1="148" y1="124" x2="219" y2="124" stroke="#F4AEE2" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,2"/>
+  <text x="144" y="127" text-anchor="end" font-family="Raleway,Arial" font-weight="700" font-size="8.5" fill="#F4AEE2">Security</text>
+
+  <!-- 1: Physiological -->
+  <line x1="148" y1="150" x2="200" y2="150" stroke="#96DEE5" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="3,2"/>
+  <text x="144" y="153" text-anchor="end" font-family="Raleway,Arial" font-weight="700" font-size="8.5" fill="#96DEE5">Physiological</text>
+
+  <!-- Bottom note -->
+  <text x="210" y="176" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7" fill="#FFFFFF" fill-opacity="0.4" font-style="italic">Learners engage best when foundational needs are met first</text>
+</svg></div>
+    </div>
+
+    <div class="model-card violet">
+      <div class="model-num num-violet">08</div>
+      <div class="model-name">Mayer's 12 Principles</div>
+      <div class="model-full">Multimedia Learning &amp; Cognitive Load Theory</div>
+      <div class="model-divider"></div>
+      <div class="model-graphic"><svg width="100%" viewBox="0 0 420 230" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mp_bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#212152"/>
+      <stop offset="100%" stop-color="#0A3642"/>
+    </linearGradient>
+  </defs>
+  <rect width="420" height="230" rx="10" fill="url(#mp_bg3)"/>
+
+  <!-- Title -->
+  <text x="210" y="18" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="12" fill="#FFFFFF" letter-spacing="1">MAYER'S 12 PRINCIPLES</text>
+  <text x="210" y="30" text-anchor="middle" font-family="Merriweather,Georgia" font-size="7.5" fill="#96DEE5" fill-opacity="0.8">Multimedia Learning &amp; Cognitive Load Theory</text>
+
+  <!-- Column x: 30, 126, 222, 318 — each w=92, gap=4 -->
+  <!-- Row y: 38, 102, 166 — h=60, 60, 58 -->
+
+  <!-- ── ROW 1: Reduce Extraneous ── -->
+  <rect x="4" y="38" width="22" height="60" rx="4" fill="#F4AEE2" fill-opacity="0.22" stroke="#F4AEE2" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="15" y="68" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="5.5" fill="#F4AEE2" transform="rotate(-90,15,68)" letter-spacing="0.8">REDUCE EXTRANEOUS</text>
+
+  <rect x="30" y="38" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="76" y="53" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#F4AEE2">Coherence</text>
+  <text x="76" y="64" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Exclude irrelevant</text>
+  <text x="76" y="73" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">material that reduces</text>
+  <text x="76" y="82" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">cognitive capacity</text>
+
+  <rect x="126" y="38" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="172" y="53" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#F4AEE2">Signalling</text>
+  <text x="172" y="64" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Use visual cues to</text>
+  <text x="172" y="73" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">highlight important</text>
+  <text x="172" y="82" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">information</text>
+
+  <rect x="222" y="38" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="268" y="53" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#F4AEE2">Redundancy</text>
+  <text x="268" y="64" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Graphics + narration</text>
+  <text x="268" y="73" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">alone &gt; graphics +</text>
+  <text x="268" y="82" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">narration + text</text>
+
+  <rect x="318" y="38" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#F4AEE2" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="364" y="53" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#F4AEE2">Contiguity</text>
+  <text x="364" y="64" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Place text near</text>
+  <text x="364" y="73" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">corresponding</text>
+  <text x="364" y="82" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">graphics</text>
+
+  <!-- ── ROW 2: Manage Essential ── -->
+  <rect x="4" y="102" width="22" height="60" rx="4" fill="#96DEE5" fill-opacity="0.18" stroke="#96DEE5" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="15" y="132" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="5.5" fill="#96DEE5" transform="rotate(-90,15,132)" letter-spacing="0.8">MANAGE ESSENTIAL</text>
+
+  <rect x="30" y="102" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="76" y="117" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#96DEE5">Segmenting</text>
+  <text x="76" y="128" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Self-pacing options</text>
+  <text x="76" y="137" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">let learners process</text>
+  <text x="76" y="146" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">before continuing</text>
+
+  <rect x="126" y="102" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="172" y="117" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#96DEE5">Pre-training</text>
+  <text x="172" y="128" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Introduce key terms</text>
+  <text x="172" y="137" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">before the main</text>
+  <text x="172" y="146" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">instruction begins</text>
+
+  <rect x="222" y="102" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="268" y="117" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#96DEE5">Modality</text>
+  <text x="268" y="128" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Present information</text>
+  <text x="268" y="137" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">verbally rather than</text>
+  <text x="268" y="146" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">as on-screen text</text>
+
+  <!-- Empty 4th cell row 2 — matches reference which only has 3 in this row -->
+  <rect x="318" y="102" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.02" stroke="#96DEE5" stroke-width="0.75" stroke-opacity="0.15"/>
+
+  <!-- ── ROW 3: Foster Generative ── -->
+  <rect x="4" y="166" width="22" height="60" rx="4" fill="#D4F0ED" fill-opacity="0.15" stroke="#D4F0ED" stroke-width="1" stroke-opacity="0.6"/>
+  <text x="15" y="196" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="5.5" fill="#D4F0ED" transform="rotate(-90,15,196)" letter-spacing="0.8">FOSTER GENERATIVE</text>
+
+  <rect x="30" y="166" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#D4F0ED" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="76" y="181" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#D4F0ED">Personalization</text>
+  <text x="76" y="192" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Use conversational</text>
+  <text x="76" y="201" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">style and personal</text>
+  <text x="76" y="210" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">pronouns in script</text>
+
+  <rect x="126" y="166" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#D4F0ED" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="172" y="181" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#D4F0ED">Voice</text>
+  <text x="172" y="192" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Use a human voice</text>
+  <text x="172" y="201" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">rather than a</text>
+  <text x="172" y="210" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">computer voice</text>
+
+  <rect x="222" y="166" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.05" stroke="#D4F0ED" stroke-width="0.75" stroke-opacity="0.35"/>
+  <text x="268" y="181" text-anchor="middle" font-family="Raleway,Arial" font-weight="900" font-size="8" fill="#D4F0ED">Embodiment</text>
+  <text x="268" y="192" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">Drawing while</text>
+  <text x="268" y="201" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">explaining is more</text>
+  <text x="268" y="210" text-anchor="middle" font-family="Merriweather,Georgia" font-size="6.5" fill="#FFFFFF" fill-opacity="0.75">effective</text>
+
+  <!-- Empty 4th cell row 3 -->
+  <rect x="318" y="166" width="92" height="60" rx="4" fill="#FFFFFF" fill-opacity="0.02" stroke="#D4F0ED" stroke-width="0.75" stroke-opacity="0.15"/>
+</svg></div>
+    </div>
+
+  </div>
+
+  <!-- BLEND STATEMENT -->
+  <div class="blend-card">
+    <div class="blend-inner">
+      <div class="blend-label">How I Apply These Frameworks</div>
+      <div class="blend-text">These are not the only frameworks I draw from — they are simply the ones I return to most consistently. I apply a blend of these and other frameworks through a <strong>person-centric lens</strong> — always beginning with a deep understanding of learners as individuals: their prior knowledge, motivations, contexts, and constraints. No single model fits every situation, so I draw from this toolkit with <strong>intentionality and adaptability</strong>, choosing the right combination for the learner, the content, and the organizational environment.</div>
+      <div class="blend-tools">In the development of learning experiences, I use tools such as <strong>Articulate Rise</strong>, <strong>Articulate Storyline</strong>, <strong>PlayPosit / WeVideo</strong>, <strong>Kaltura</strong>, and the organization's <strong>LMS</strong> to bring designs to life — always in service of the learning goals, never as ends in themselves.</div>
+    </div>
+  </div>
+
+</div><!-- /doc-content -->
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="footer-text">Christine Wright &nbsp;·&nbsp; Instructional Design Frameworks &nbsp;·&nbsp; UC Davis CPE Interview</div>
+  <a href="index.html" class="back-btn">← Back to Presentation</a>
+</div>
+
+</body>
+</html>
